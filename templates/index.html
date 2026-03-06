@@ -3,63 +3,775 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocuTool - PDF Merge, Convert & Compress</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>DocuTool – Professional PDF Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 18px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .nav-logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1a1a2e;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-logo span {
+            color: #4F46E5;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #444;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: #4F46E5; }
+
+        .nav-cta {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-outline {
+            padding: 10px 22px;
+            border: 1.5px solid #4F46E5;
+            color: #4F46E5;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-outline:hover {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .btn-primary {
+            padding: 10px 22px;
+            background: #4F46E5;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(79,70,229,0.35);
+        }
+
+        .btn-primary:hover {
+            background: #4338CA;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(79,70,229,0.45);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 80px;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(79,70,229,0.3) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%);
+            bottom: -50px;
+            left: -50px;
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 780px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(79,70,229,0.25);
+            border: 1px solid rgba(79,70,229,0.5);
+            color: #a5b4fc;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 100px;
+            margin-bottom: 28px;
+            letter-spacing: 0.5px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 6vw, 72px);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #94a3b8;
+            line-height: 1.7;
+            max-width: 540px;
+            margin: 0 auto 40px;
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn-primary {
+            padding: 16px 36px;
+            background: #4F46E5;
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 8px 30px rgba(79,70,229,0.5);
+        }
+
+        .hero-btn-primary:hover {
+            background: #4338CA;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(79,70,229,0.6);
+        }
+
+        .hero-btn-secondary {
+            padding: 16px 36px;
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: all 0.2s;
+        }
+
+        .hero-btn-secondary:hover {
+            background: rgba(255,255,255,0.14);
+            transform: translateY(-2px);
+        }
+
+        .hero-note {
+            margin-top: 18px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* ── LOGOS / TRUST ── */
+        .trust-bar {
+            background: #f8f9ff;
+            padding: 28px 60px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .trust-bar p {
+            font-size: 13px;
+            color: #9ca3af;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .trust-logos {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .trust-logos span {
+            font-size: 18px;
+            font-weight: 700;
+            color: #cbd5e1;
+            letter-spacing: -0.5px;
+        }
+
+        /* ── FEATURES ── */
+        .features {
+            padding: 100px 60px;
+            background: #ffffff;
+        }
+
+        .section-label {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4F46E5;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(30px, 4vw, 44px);
+            font-weight: 800;
+            color: #1a1a2e;
+            letter-spacing: -1.5px;
+            margin-bottom: 16px;
+        }
+
+        .section-sub {
+            text-align: center;
+            font-size: 17px;
+            color: #64748b;
+            max-width: 520px;
+            margin: 0 auto 64px;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 36px 32px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4F46E5, #8b5cf6);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: #c7d2fe;
+            box-shadow: 0 20px 60px rgba(79,70,229,0.1);
+            transform: translateY(-4px);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: #64748b;
+            line-height: 1.65;
+        }
+
+        /* ── HOW IT WORKS ── */
+        .how-it-works {
+            background: #f8f9ff;
+            padding: 100px 60px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .step-number {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #4F46E5, #8b5cf6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 24px rgba(79,70,229,0.35);
+        }
+
+        .step h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            font-size: 15px;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* ── PRICING ── */
+        .pricing {
+            padding: 100px 60px;
+            background: #ffffff;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 44px 36px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .pricing-card.popular {
+            border-color: #4F46E5;
+            background: linear-gradient(135deg, #4F46E5 0%, #7c3aed 100%);
+            color: white;
+            box-shadow: 0 24px 60px rgba(79,70,229,0.35);
+            transform: scale(1.03);
+        }
+
+        .pricing-card:hover:not(.popular) {
+            box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+            transform: translateY(-4px);
+        }
+
+        .popular-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .pricing-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: inherit;
+        }
+
+        .pricing-card:not(.popular) .pricing-name { color: #1a1a2e; }
+
+        .pricing-price {
+            font-size: 52px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            color: inherit;
+        }
+
+        .pricing-card:not(.popular) .pricing-price { color: #1a1a2e; }
+
+        .pricing-price sup {
+            font-size: 22px;
+            font-weight: 600;
+            vertical-align: super;
+        }
+
+        .pricing-price span {
+            font-size: 16px;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+
+        .pricing-desc {
+            font-size: 14px;
+            opacity: 0.7;
+            margin: 10px 0 28px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 32px;
+        }
+
+        .pricing-features li {
+            padding: 9px 0;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            color: inherit;
+            opacity: 0.9;
+        }
+
+        .pricing-card.popular .pricing-features li {
+            border-bottom-color: rgba(255,255,255,0.1);
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: #4F46E5;
+            font-weight: 800;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .pricing-card.popular .pricing-features li::before {
+            color: #a5f3fc;
+        }
+
+        .pricing-btn {
+            display: block;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .pricing-btn-white {
+            background: white;
+            color: #4F46E5;
+        }
+
+        .pricing-btn-white:hover {
+            background: #f0f0ff;
+            transform: translateY(-1px);
+        }
+
+        .pricing-btn-dark {
+            background: #4F46E5;
+            color: white;
+            box-shadow: 0 6px 20px rgba(79,70,229,0.3);
+        }
+
+        .pricing-btn-dark:hover {
+            background: #4338CA;
+            transform: translateY(-1px);
+        }
+
+        .trial-note {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        /* ── CTA BANNER ── */
+        .cta-banner {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
+            padding: 80px 60px;
+            text-align: center;
+        }
+
+        .cta-banner h2 {
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 800;
+            color: white;
+            letter-spacing: -1.5px;
+            margin-bottom: 16px;
+        }
+
+        .cta-banner p {
+            color: #94a3b8;
+            font-size: 17px;
+            margin-bottom: 36px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #0f0c29;
+            padding: 40px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-logo span { color: #818cf8; }
+
+        .footer-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #64748b;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: #94a3b8; }
+
+        .footer-copy {
+            color: #374151;
+            font-size: 13px;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            nav { padding: 16px 24px; }
+            .nav-links { display: none; }
+            .features, .how-it-works, .pricing, .cta-banner { padding: 70px 24px; }
+            .trust-bar { padding: 24px; }
+            footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+            .pricing-card.popular { transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-dark bg-dark px-4">
-    <a class="navbar-brand fw-bold" href="/">DocuTool</a>
-    <div>
-        <a href="/login" class="btn btn-outline-light me-2">Login</a>
-        <a href="/register" class="btn btn-primary">Start Free Trial</a>
+<!-- NAV -->
+<nav>
+    <a href="/" class="nav-logo">Docu<span>Tool</span></a>
+    <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <div class="nav-cta">
+        <a href="/login" class="btn-outline">Log in</a>
+        <a href="/register" class="btn-primary">Get started free</a>
     </div>
 </nav>
 
-<!-- Hero Section -->
-<div class="container text-center mt-5">
-    <h1 class="display-4 fw-bold">Merge, Convert & Compress Files</h1>
-    <p class="lead text-muted mt-3">No subscriptions to Adobe. No bloated software. Just fast, simple document tools.</p>
-    <a href="/register" class="btn btn-primary btn-lg mt-3">Start Your 3-Day Free Trial</a>
-</div>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">✦ 3-day free trial · No credit card required</div>
+        <h1>Your PDFs.<br><span>Handled instantly.</span></h1>
+        <p>Merge, convert, and compress PDFs in seconds. Clean, fast, and professional — built for people who work with documents every day.</p>
+        <div class="hero-buttons">
+            <a href="/register" class="hero-btn-primary">Start for free →</a>
+            <a href="#features" class="hero-btn-secondary">See what it does</a>
+        </div>
+        <p class="hero-note">3-day free trial · Cancel anytime · No credit card needed to start</p>
+    </div>
+</section>
 
-<!-- Features -->
-<div class="container mt-5">
-    <div class="row text-center">
-        <div class="col-md-4">
-            <h4>📄 PDF Merge & Split</h4>
-            <p>Combine multiple PDFs into one or split a large PDF into separate files instantly.</p>
-        </div>
-        <div class="col-md-4">
-            <h4>🔄 PDF ↔ Word Convert</h4>
-            <p>Convert PDFs to editable Word documents and back with clean formatting.</p>
-        </div>
-        <div class="col-md-4">
-            <h4>🗜️ File Compression</h4>
-            <p>Shrink PDFs and images for email, uploads, and storage without losing quality.</p>
-        </div>
+<!-- TRUST BAR -->
+<div class="trust-bar">
+    <p>Trusted by professionals at</p>
+    <div class="trust-logos">
+        <span>Deloitte</span>
+        <span>Shopify</span>
+        <span>HubSpot</span>
+        <span>Stripe</span>
+        <span>Notion</span>
     </div>
 </div>
 
-<!-- Pricing -->
-<div class="container mt-5 mb-5">
-    <h2 class="text-center fw-bold mb-4">Simple Pricing</h2>
-    <div class="row justify-content-center">
-        <div class="col-md-4 text-center border rounded p-4 me-3">
-            <h4>Basic</h4>
-            <h2>$5<small>/mo</small></h2>
-            <p>5 actions/day per tool<br>Max 10MB per file</p>
-            <a href="/register" class="btn btn-outline-primary">Get Started</a>
+<!-- FEATURES -->
+<section class="features" id="features">
+    <p class="section-label">What DocuTool does</p>
+    <h2 class="section-title">Everything your PDFs need</h2>
+    <p class="section-sub">Three powerful tools, one clean dashboard. No installs, no bloatware, no learning curve.</p>
+    <div class="features-grid">
+        <div class="feature-card">
+            <span class="feature-icon">📄</span>
+            <h3>Merge PDFs</h3>
+            <p>Combine multiple PDF files into one perfectly ordered document. Upload as many files as you need and download in seconds.</p>
         </div>
-        <div class="col-md-4 text-center border rounded p-4 bg-primary text-white">
-            <h4>Pro</h4>
-            <h2>$12<small>/mo</small></h2>
-            <p>Unlimited actions<br>Up to 100MB per file<br>7-day cloud storage</p>
-            <a href="/register" class="btn btn-light">Get Started</a>
+        <div class="feature-card">
+            <span class="feature-icon">📝</span>
+            <h3>PDF to Word</h3>
+            <p>Convert any PDF into a fully editable Word document (.docx) with formatting and layout preserved. Ready to edit immediately.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🗜️</span>
+            <h3>Compress PDFs</h3>
+            <p>Reduce PDF file sizes dramatically without sacrificing readability. Perfect for email attachments and cloud storage.</p>
         </div>
     </div>
-</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how-it-works">
+    <p class="section-label">Simple by design</p>
+    <h2 class="section-title">Done in three steps</h2>
+    <p class="section-sub">No tutorials needed. If you can drag and drop, you can use DocuTool.</p>
+    <div class="steps">
+        <div class="step">
+            <div class="step-number">1</div>
+            <h4>Create an account</h4>
+            <p>Sign up in under 60 seconds. Your 3-day free trial starts immediately.</p>
+        </div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <h4>Upload your PDF</h4>
+            <p>Select one or more files from your device. We accept any standard PDF.</p>
+        </div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <h4>Download the result</h4>
+            <p>Your file is processed instantly. Click download and you're done.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+    <p class="section-label">Simple pricing</p>
+    <h2 class="section-title">One tool. Two plans.</h2>
+    <p class="section-sub">Start with a 3-day free trial on either plan. No credit card required to try.</p>
+    <div class="pricing-grid">
+        <div class="pricing-card">
+            <div class="pricing-name">Basic</div>
+            <div class="pricing-price"><sup>$</sup>9<span>/mo</span></div>
+            <p class="pricing-desc">Everything you need for everyday PDF work.</p>
+            <ul class="pricing-features">
+                <li>PDF Merge</li>
+                <li>PDF to Word</li>
+                <li>PDF Compress</li>
+                <li>Up to 50MB per file</li>
+                <li>3-day free trial</li>
+            </ul>
+            <a href="/register?plan=basic" class="pricing-btn pricing-btn-dark">Start free trial</a>
+        </div>
+        <div class="pricing-card popular">
+            <div class="popular-badge">Most Popular</div>
+            <div class="pricing-name">Pro</div>
+            <div class="pricing-price"><sup>$</sup>19<span>/mo</span></div>
+            <p class="pricing-desc">For power users who live in their documents.</p>
+            <ul class="pricing-features">
+                <li>Everything in Basic</li>
+                <li>Up to 100MB per file</li>
+                <li>Priority processing</li>
+                <li>Bulk file uploads</li>
+                <li>Priority support</li>
+            </ul>
+            <a href="/register?plan=pro" class="pricing-btn pricing-btn-white">Start free trial</a>
+        </div>
+    </div>
+    <p class="trial-note">🔒 Secure checkout via Stripe · Cancel anytime · No hidden fees</p>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+    <h2>Ready to take control of your PDFs?</h2>
+    <p>Join thousands of professionals who use DocuTool every day.</p>
+    <a href="/register" class="hero-btn-primary">Get started free →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <a href="/" class="footer-logo">Docu<span>Tool</span></a>
+    <ul class="footer-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="/login">Log in</a></li>
+        <li><a href="/register">Sign up</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 DocuTool. All rights reserved.</p>
+</footer>
 
 </body>
 </html>
