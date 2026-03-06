@@ -2,6 +2,7 @@ import io
 import os
 import uuid
 import zipfile
+import tempfile
 from datetime import datetime, timedelta
 
 import stripe
@@ -273,7 +274,6 @@ def merge():
             from pypdf import PdfWriter
 
             if mode == 'zip':
-                # Merge all into one PDF, then zip it
                 writer = PdfWriter()
                 for f in files:
                     writer.append(f)
@@ -293,9 +293,7 @@ def merge():
                     as_attachment=True,
                     download_name='merged.zip'
                 )
-
             else:
-                # Default: merge into a single PDF and download directly
                 writer = PdfWriter()
                 for f in files:
                     writer.append(f)
@@ -318,10 +316,85 @@ def merge():
     return render_template('merge.html')
 
 
-@app.route('/convert')
+@app.route('/convert', methods=['GET', 'POST'])
 @login_required
 def convert():
-    return '<h2>PDF ↔ Word tool coming next</h2>'
+    if request.method == 'POST':
+        files = request.files.getlist('pdfs')
+
+        if not files or all(f.filename == '' for f in files):
+            flash('Please upload at least one PDF file.')
+            return redirect(url_for('convert'))
+
+        for f in files:
+            if not f.filename.lower().endswith('.pdf'):
+                flash('All files must be PDFs.')
+                return redirect(url_for('convert'))
+
+        try:
+            from pdf2docx import Converter as PDFConverter
+
+            if len(files) == 1:
+                # Single file — return the .docx directly
+                f = files[0]
+                with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as tmp_pdf:
+                    f.save(tmp_pdf.name)
+                    tmp_pdf_path = tmp_pdf.name
+
+                tmp_docx_path = tmp_pdf_path.replace('.pdf', '.docx')
+                cv = PDFConverter(tmp_pdf_path)
+                cv.convert(tmp_docx_path)
+                cv.close()
+
+                with open(tmp_docx_path, 'rb') as docx_file:
+                    docx_bytes = io.BytesIO(docx_file.read())
+                docx_bytes.seek(0)
+
+                os.unlink(tmp_pdf_path)
+                os.unlink(tmp_docx_path)
+
+                original_name = os.path.splitext(f.filename)[0]
+                return send_file(
+                    docx_bytes,
+                    mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    as_attachment=True,
+                    download_name=f'{original_name}.docx'
+                )
+
+            else:
+                # Multiple files — zip all converted .docx files
+                zip_buffer = io.BytesIO()
+                with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zf:
+                    for f in files:
+                        with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as tmp_pdf:
+                            f.save(tmp_pdf.name)
+                            tmp_pdf_path = tmp_pdf.name
+
+                        tmp_docx_path = tmp_pdf_path.replace('.pdf', '.docx')
+                        cv = PDFConverter(tmp_pdf_path)
+                        cv.convert(tmp_docx_path)
+                        cv.close()
+
+                        original_name = os.path.splitext(f.filename)[0]
+                        with open(tmp_docx_path, 'rb') as docx_file:
+                            zf.writestr(f'{original_name}.docx', docx_file.read())
+
+                        os.unlink(tmp_pdf_path)
+                        os.unlink(tmp_docx_path)
+
+                zip_buffer.seek(0)
+                return send_file(
+                    zip_buffer,
+                    mimetype='application/zip',
+                    as_attachment=True,
+                    download_name='converted.zip'
+                )
+
+        except Exception as e:
+            flash(f'Error converting PDF: {str(e)}')
+            return redirect(url_for('convert'))
+
+    return render_template('convert.html')
 
 
 @app.route('/compress')
