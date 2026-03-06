@@ -14,7 +14,7 @@ load_dotenv(os.path.join(basedir, '.env'))
 
 app = Flask(__name__)
 app.secret_key = 'change_this_to_a_long_random_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
 
