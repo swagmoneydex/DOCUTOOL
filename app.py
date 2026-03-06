@@ -59,11 +59,11 @@ def load_user(user_id):
 def create_user_from_checkout_session(checkout_session):
     pending_id = checkout_session.get('client_reference_id')
     if not pending_id:
-        return
+        return None
 
     pending_signup = PendingSignup.query.filter_by(id=pending_id).first()
     if not pending_signup:
-        return
+        return None
 
     existing_user = User.query.filter_by(email=pending_signup.email).first()
     if existing_user:
@@ -73,7 +73,7 @@ def create_user_from_checkout_session(checkout_session):
             existing_user.stripe_subscription_id = checkout_session.get('subscription')
         db.session.delete(pending_signup)
         db.session.commit()
-        return
+        return existing_user
 
     user = User(
         email=pending_signup.email,
@@ -87,6 +87,7 @@ def create_user_from_checkout_session(checkout_session):
     db.session.add(user)
     db.session.delete(pending_signup)
     db.session.commit()
+    return user
 
 
 @app.route('/')
@@ -177,12 +178,20 @@ def checkout_success():
         flash('Checkout was not completed.')
         return redirect(url_for('register'))
 
+    # Check if webhook already created the user
     existing_user = User.query.filter_by(email=checkout_session.customer_email).first()
     if existing_user:
         login_user(existing_user)
         return redirect(url_for('dashboard'))
 
-    flash('Payment received. Your account is being finalized. Please log in in a few seconds.')
+    # Webhook hasn't fired yet — create the user right now from the session
+    user = create_user_from_checkout_session(checkout_session)
+    if user:
+        login_user(user)
+        return redirect(url_for('dashboard'))
+
+    # Should never reach here, but just in case
+    flash('Payment received but account setup failed. Please contact support.')
     return redirect(url_for('login'))
 
 
