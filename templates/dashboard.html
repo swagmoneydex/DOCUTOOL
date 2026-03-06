@@ -8,8 +8,10 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #f8f9ff; min-height: 100vh; }
+
+        /* ── NAV ── */
         nav {
-            padding: 18px 60px;
+            padding: 16px 60px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -17,11 +19,11 @@
             border-bottom: 1px solid #e5e7eb;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 200;
         }
         .nav-logo { font-size: 22px; font-weight: 800; color: #1a1a2e; text-decoration: none; }
         .nav-logo span { color: #4F46E5; }
-        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-right { display: flex; align-items: center; gap: 16px; }
         .plan-badge {
             background: #ede9fe;
             color: #4F46E5;
@@ -32,62 +34,195 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .nav-email { font-size: 14px; color: #64748b; font-weight: 500; }
-        .logout-btn {
-            padding: 8px 18px;
+
+        /* ── PROFILE DROPDOWN ── */
+        .profile-wrapper { position: relative; }
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f1f5f9;
             border: 1.5px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #64748b;
-            text-decoration: none;
+            border-radius: 100px;
+            padding: 6px 16px 6px 8px;
+            cursor: pointer;
             transition: all 0.2s;
+            user-select: none;
         }
-        .logout-btn:hover { border-color: #4F46E5; color: #4F46E5; }
+        .profile-btn:hover { border-color: #4F46E5; background: #ede9fe; }
+        .avatar {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .profile-name { font-size: 13px; font-weight: 600; color: #1a1a2e; }
+        .chevron { font-size: 10px; color: #64748b; transition: transform 0.2s; }
+        .profile-wrapper.open .chevron { transform: rotate(180deg); }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            width: 280px;
+            z-index: 300;
+            overflow: hidden;
+        }
+        .profile-wrapper.open .dropdown { display: block; }
+
+        .dropdown-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
+        }
+        .dropdown-header .d-name { font-size: 15px; font-weight: 700; color: white; margin-bottom: 2px; }
+        .dropdown-header .d-email { font-size: 12px; color: #94a3b8; margin-bottom: 10px; }
+        .dropdown-header .d-badge {
+            background: rgba(79,70,229,0.3);
+            color: #818cf8;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .dropdown-section { padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
+        .dropdown-section:last-child { border-bottom: none; }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        .dropdown-item:hover { background: #f8f9ff; color: #4F46E5; }
+        .dropdown-item .di-icon { font-size: 16px; width: 20px; text-align: center; }
+        .dropdown-item.danger { color: #ef4444; }
+        .dropdown-item.danger:hover { background: #fef2f2; color: #dc2626; }
+
+        .sub-status {
+            padding: 10px 20px;
+            background: #f8f9ff;
+        }
+        .sub-status .sub-label { font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .sub-status .sub-value { font-size: 13px; font-weight: 600; color: #1a1a2e; }
+        .sub-status .sub-value .active { color: #10b981; }
+
+        /* ── FLASH MESSAGES ── */
+        .flash-messages { padding: 0 60px; margin-top: 16px; }
+        .flash-msg {
+            background: #ede9fe;
+            color: #4F46E5;
+            border: 1px solid #c7d2fe;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* ── HERO BAR ── */
         .hero-bar {
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
-            padding: 48px 60px;
+            padding: 52px 60px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        .hero-bar h1 {
-            font-size: 32px;
-            font-weight: 800;
-            color: white;
-            letter-spacing: -1px;
-            margin-bottom: 6px;
+        .hero-bar::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(79,70,229,0.3) 0%, transparent 70%);
+            pointer-events: none;
         }
+        .hero-bar h1 { font-size: 34px; font-weight: 800; color: white; letter-spacing: -1px; margin-bottom: 8px; }
         .hero-bar p { color: #94a3b8; font-size: 15px; }
         .hero-bar p span { color: #818cf8; font-weight: 600; }
-        .tools {
-            padding: 48px 60px;
+
+        /* ── STATS ROW ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 36px 60px 0;
             max-width: 1100px;
             margin: 0 auto;
         }
-        .tools h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 24px;
-            letter-spacing: -0.5px;
-            text-align: center;
+        .stat-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 22px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
+        .stat-icon {
+            width: 46px; height: 46px;
+            border-radius: 12px;
+            background: #ede9fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .stat-label { font-size: 12px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .stat-value { font-size: 22px; font-weight: 800; color: #1a1a2e; }
+
+        /* ── TOOLS SECTION ── */
+        .tools {
+            padding: 36px 60px 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .section-header h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; letter-spacing: -0.5px; }
+        .section-header span { font-size: 13px; color: #94a3b8; }
+
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            justify-items: center;
+            gap: 20px;
         }
         .tool-card {
             background: white;
             border: 1px solid #e5e7eb;
             border-radius: 16px;
-            padding: 32px 28px;
+            padding: 28px 24px;
             text-decoration: none;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
             display: block;
-            width: 100%;
         }
         .tool-card::before {
             content: '';
@@ -98,59 +233,212 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        .tool-card:hover {
-            border-color: #c7d2fe;
-            box-shadow: 0 16px 48px rgba(79,70,229,0.12);
-            transform: translateY(-4px);
-        }
+        .tool-card:hover { border-color: #c7d2fe; box-shadow: 0 16px 48px rgba(79,70,229,0.12); transform: translateY(-4px); }
         .tool-card:hover::before { opacity: 1; }
-        .tool-icon { font-size: 40px; margin-bottom: 16px; display: block; }
-        .tool-card h3 { font-size: 19px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
-        .tool-card p { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
-        .tool-link { font-size: 14px; font-weight: 700; color: #4F46E5; }
+        .tool-icon { font-size: 38px; margin-bottom: 14px; display: block; }
+        .tool-card h3 { font-size: 17px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+        .tool-card p { font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 18px; }
+        .tool-link { font-size: 13px; font-weight: 700; color: #4F46E5; }
+
+        /* ── CANCEL MODAL ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 500;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 36px;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .modal .modal-icon { font-size: 48px; margin-bottom: 16px; }
+        .modal h3 { font-size: 20px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; }
+        .modal p { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 28px; }
+        .modal-buttons { display: flex; gap: 12px; }
+        .btn-keep {
+            flex: 1; padding: 12px;
+            background: #4F46E5; color: white;
+            border: none; border-radius: 10px;
+            font-size: 14px; font-weight: 700;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .btn-keep:hover { background: #4338ca; }
+        .btn-cancel-confirm {
+            flex: 1; padding: 12px;
+            background: white; color: #ef4444;
+            border: 1.5px solid #ef4444; border-radius: 10px;
+            font-size: 14px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .btn-cancel-confirm:hover { background: #fef2f2; }
+
         @media (max-width: 900px) {
+            nav, .hero-bar, .tools, .flash-messages { padding-left: 20px; padding-right: 20px; }
+            .stats-row { grid-template-columns: 1fr; padding: 24px 20px 0; }
             .tools-grid { grid-template-columns: 1fr; }
-            nav, .hero-bar, .tools { padding-left: 24px; padding-right: 24px; }
+            .profile-name { display: none; }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="/" class="nav-logo">Docu<span>Tool</span></a>
-        <div class="nav-right">
-            <span class="plan-badge">{{ user.plan }}</span>
-            <span class="nav-email">{{ user.email }}</span>
-            <a href="/logout" class="logout-btn">Log out</a>
+
+<nav>
+    <a href="/" class="nav-logo">Docu<span>Tool</span></a>
+    <div class="nav-right">
+        <span class="plan-badge">{{ user.plan }}</span>
+        <div class="profile-wrapper" id="profileWrapper">
+            <div class="profile-btn" onclick="toggleDropdown()">
+                <div class="avatar">{{ user.email[0].upper() }}</div>
+                <span class="profile-name">{{ user.email.split('@')[0] }}</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="dropdown">
+                <div class="dropdown-header">
+                    <div class="d-name">{{ user.email.split('@')[0]|capitalize }}</div>
+                    <div class="d-email">{{ user.email }}</div>
+                    <span class="d-badge">{{ user.plan }} plan</span>
+                </div>
+                <div class="dropdown-section">
+                    <div class="sub-status">
+                        <div class="sub-label">Subscription Status</div>
+                        <div class="sub-value">
+                            {% if user.trial_ends_at and user.trial_ends_at > now %}
+                                ⏳ Trial ends {{ user.trial_ends_at.strftime('%B %d, %Y') }}
+                            {% elif user.plan == 'cancelled' %}
+                                ❌ Cancelled
+                            {% else %}
+                                <span class="active">● Active</span> — renews monthly
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown-section">
+                    <a href="/account" class="dropdown-item">
+                        <span class="di-icon">👤</span> My Account
+                    </a>
+                    <a href="/billing" class="dropdown-item">
+                        <span class="di-icon">💳</span> Billing & Plan
+                    </a>
+                </div>
+                <div class="dropdown-section">
+                    <button class="dropdown-item danger" onclick="openCancelModal()">
+                        <span class="di-icon">❌</span> Cancel Subscription
+                    </button>
+                    <a href="/logout" class="dropdown-item">
+                        <span class="di-icon">🚪</span> Log out
+                    </a>
+                </div>
+            </div>
         </div>
-    </nav>
-
-    <div class="hero-bar">
-        <h1>Welcome back 👋</h1>
-        <p>You're on the <span>{{ user.plan|capitalize }}</span> plan. Choose a tool below to get started.</p>
     </div>
+</nav>
 
-    <div class="tools">
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+                <div class="flash-msg">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="hero-bar">
+    <h1>Welcome back 👋</h1>
+    <p>You're on the <span>{{ user.plan|capitalize }}</span> plan. Choose a tool below to get started.</p>
+</div>
+
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-icon">📄</div>
+        <div>
+            <div class="stat-label">PDFs Merged</div>
+            <div class="stat-value">0</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <div>
+            <div class="stat-label">Files Converted</div>
+            <div class="stat-value">0</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🗜️</div>
+        <div>
+            <div class="stat-label">Files Compressed</div>
+            <div class="stat-value">0</div>
+        </div>
+    </div>
+</div>
+
+<div class="tools">
+    <div class="section-header">
         <h2>Your tools</h2>
-        <div class="tools-grid">
-            <a href="/merge" class="tool-card">
-                <span class="tool-icon">📄</span>
-                <h3>Merge PDFs</h3>
-                <p>Combine multiple PDF files into one perfectly ordered document in seconds.</p>
-                <div class="tool-link">Open tool →</div>
-            </a>
-            <a href="/convert" class="tool-card">
-                <span class="tool-icon">📝</span>
-                <h3>PDF to Word</h3>
-                <p>Convert any PDF into a fully editable Word document with layout preserved.</p>
-                <div class="tool-link">Open tool →</div>
-            </a>
-            <a href="/compress" class="tool-card">
-                <span class="tool-icon">🗜️</span>
-                <h3>Compress PDF</h3>
-                <p>Reduce file sizes without losing quality. Perfect for email and cloud storage.</p>
-                <div class="tool-link">Open tool →</div>
-            </a>
+        <span>{{ user.plan|capitalize }} plan — all tools unlocked</span>
+    </div>
+    <div class="tools-grid">
+        <a href="/merge" class="tool-card">
+            <span class="tool-icon">📄</span>
+            <h3>Merge PDFs</h3>
+            <p>Combine multiple PDF files into one perfectly ordered document in seconds.</p>
+            <div class="tool-link">Open tool →</div>
+        </a>
+        <a href="/convert" class="tool-card">
+            <span class="tool-icon">📝</span>
+            <h3>PDF to Word</h3>
+            <p>Convert any PDF into a fully editable Word document with layout preserved.</p>
+            <div class="tool-link">Open tool →</div>
+        </a>
+        <a href="/compress" class="tool-card">
+            <span class="tool-icon">🗜️</span>
+            <h3>Compress PDF</h3>
+            <p>Reduce file sizes without losing quality. Perfect for email and cloud storage.</p>
+            <div class="tool-link">Open tool →</div>
+        </a>
+    </div>
+</div>
+
+<!-- Cancel Modal -->
+<div class="modal-overlay" id="cancelModal">
+    <div class="modal">
+        <div class="modal-icon">😢</div>
+        <h3>Cancel your subscription?</h3>
+        <p>You'll lose access to all DocuTool features at the end of your current billing period. This cannot be undone.</p>
+        <div class="modal-buttons">
+            <button class="btn-keep" onclick="closeCancelModal()">Keep my plan</button>
+            <form action="/cancel-subscription" method="POST" style="flex:1">
+                <button type="submit" class="btn-cancel-confirm" style="width:100%">Yes, cancel</button>
+            </form>
         </div>
     </div>
+</div>
+
+<script>
+    function toggleDropdown() {
+        document.getElementById('profileWrapper').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+        const wrapper = document.getElementById('profileWrapper');
+        if (!wrapper.contains(e.target)) wrapper.classList.remove('open');
+    });
+    function openCancelModal() {
+        document.getElementById('profileWrapper').classList.remove('open');
+        document.getElementById('cancelModal').classList.add('open');
+    }
+    function closeCancelModal() {
+        document.getElementById('cancelModal').classList.remove('open');
+    }
+</script>
+
 </body>
 </html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account – DocuTool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8f9ff; min-height: 100vh; }
+
+        /* ── NAV ── */
+        nav {
+            padding: 16px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+        .nav-logo { font-size: 22px; font-weight: 800; color: #1a1a2e; text-decoration: none; }
+        .nav-logo span { color: #4F46E5; }
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .plan-badge {
+            background: #ede9fe; color: #4F46E5;
+            font-size: 12px; font-weight: 700;
+            padding: 4px 12px; border-radius: 100px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .back-btn {
+            display: flex; align-items: center; gap: 6px;
+            padding: 8px 16px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 13px; font-weight: 600;
+            color: #64748b; text-decoration: none;
+            transition: all 0.2s;
+        }
+        .back-btn:hover { border-color: #4F46E5; color: #4F46E5; }
+
+        /* ── PROFILE DROPDOWN ── */
+        .profile-wrapper { position: relative; }
+        .profile-btn {
+            display: flex; align-items: center; gap: 10px;
+            background: #f1f5f9; border: 1.5px solid #e5e7eb;
+            border-radius: 100px; padding: 6px 16px 6px 8px;
+            cursor: pointer; transition: all 0.2s; user-select: none;
+        }
+        .profile-btn:hover { border-color: #4F46E5; background: #ede9fe; }
+        .avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #8b5cf6);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 13px; font-weight: 700;
+        }
+        .profile-name { font-size: 13px; font-weight: 600; color: #1a1a2e; }
+        .chevron { font-size: 10px; color: #64748b; transition: transform 0.2s; }
+        .profile-wrapper.open .chevron { transform: rotate(180deg); }
+        .dropdown {
+            display: none; position: absolute;
+            top: calc(100% + 10px); right: 0;
+            background: white; border: 1px solid #e5e7eb;
+            border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            width: 280px; z-index: 300; overflow: hidden;
+        }
+        .profile-wrapper.open .dropdown { display: block; }
+        .dropdown-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
+        }
+        .dropdown-header .d-name { font-size: 15px; font-weight: 700; color: white; margin-bottom: 2px; }
+        .dropdown-header .d-email { font-size: 12px; color: #94a3b8; margin-bottom: 10px; }
+        .dropdown-header .d-badge {
+            background: rgba(79,70,229,0.3); color: #818cf8;
+            font-size: 11px; font-weight: 700;
+            padding: 3px 10px; border-radius: 100px;
+            text-transform: uppercase; letter-spacing: 0.5px; display: inline-block;
+        }
+        .dropdown-section { padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
+        .dropdown-section:last-child { border-bottom: none; }
+        .dropdown-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 20px; font-size: 14px; font-weight: 500;
+            color: #374151; text-decoration: none; cursor: pointer;
+            transition: background 0.15s; border: none;
+            background: none; width: 100%; text-align: left;
+        }
+        .dropdown-item:hover { background: #f8f9ff; color: #4F46E5; }
+        .dropdown-item .di-icon { font-size: 16px; width: 20px; text-align: center; }
+        .dropdown-item.danger { color: #ef4444; }
+        .dropdown-item.danger:hover { background: #fef2f2; color: #dc2626; }
+
+        /* ── FLASH MESSAGES ── */
+        .flash-messages { padding: 0 60px; margin-top: 16px; }
+        .flash-msg {
+            background: #ede9fe; color: #4F46E5;
+            border: 1px solid #c7d2fe; border-radius: 10px;
+            padding: 12px 18px; font-size: 14px; font-weight: 500;
+        }
+
+        /* ── HERO BAR ── */
+        .hero-bar {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
+            padding: 48px 60px; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .hero-bar::before {
+            content: ''; position: absolute;
+            top: -80px; right: -80px;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(79,70,229,0.3) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-bar h1 { font-size: 30px; font-weight: 800; color: white; letter-spacing: -1px; margin-bottom: 6px; }
+        .hero-bar p { color: #94a3b8; font-size: 14px; }
+
+        /* ── PAGE CONTENT ── */
+        .page-content {
+            max-width: 760px;
+            margin: 40px auto;
+            padding: 0 60px 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 20px 28px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .card-header-icon {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            background: #ede9fe;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .card-header h2 { font-size: 16px; font-weight: 700; color: #1a1a2e; }
+        .card-header p { font-size: 12px; color: #94a3b8; margin-top: 1px; }
+        .card-body { padding: 24px 28px; }
+
+        /* ── INFO ROWS ── */
+        .info-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid #f8f9ff;
+        }
+        .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .info-row:first-child { padding-top: 0; }
+        .info-label { font-size: 13px; color: #94a3b8; font-weight: 500; }
+        .info-value { font-size: 14px; color: #1a1a2e; font-weight: 600; text-align: right; }
+
+        /* ── STATUS PILLS ── */
+        .pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 12px; border-radius: 100px;
+            font-size: 12px; font-weight: 700;
+        }
+        .pill.active { background: #dcfce7; color: #16a34a; }
+        .pill.trialing { background: #fef9c3; color: #ca8a04; }
+        .pill.cancelled { background: #fee2e2; color: #dc2626; }
+        .pill.inactive { background: #f1f5f9; color: #64748b; }
+        .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+        /* ── DANGER ZONE ── */
+        .danger-zone {
+            background: white;
+            border: 1px solid #fecaca;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .danger-header {
+            padding: 20px 28px;
+            border-bottom: 1px solid #fee2e2;
+            background: #fff5f5;
+        }
+        .danger-header h2 { font-size: 15px; font-weight: 700; color: #dc2626; }
+        .danger-header p { font-size: 12px; color: #ef4444; margin-top: 2px; }
+        .danger-body { padding: 24px 28px; }
+        .danger-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .danger-row p { font-size: 13px; color: #64748b; line-height: 1.6; flex: 1; }
+        .btn-cancel {
+            padding: 10px 22px;
+            background: white;
+            color: #ef4444;
+            border: 1.5px solid #ef4444;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .btn-cancel:hover { background: #fef2f2; }
+        .btn-cancelled-already {
+            padding: 10px 22px;
+            background: #f1f5f9;
+            color: #94a3b8;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: not-allowed;
+            white-space: nowrap;
+        }
+
+        /* ── CANCEL MODAL ── */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 500;
+            align-items: center; justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: white; border-radius: 20px;
+            padding: 36px; max-width: 420px; width: 90%;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2); text-align: center;
+        }
+        .modal-icon { font-size: 48px; margin-bottom: 16px; }
+        .modal h3 { font-size: 20px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; }
+        .modal p { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 28px; }
+        .modal-buttons { display: flex; gap: 12px; }
+        .btn-keep {
+            flex: 1; padding: 12px;
+            background: #4F46E5; color: white;
+            border: none; border-radius: 10px;
+            font-size: 14px; font-weight: 700;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .btn-keep:hover { background: #4338ca; }
+        .btn-cancel-confirm {
+            flex: 1; padding: 12px;
+            background: white; color: #ef4444;
+            border: 1.5px solid #ef4444; border-radius: 10px;
+            font-size: 14px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .btn-cancel-confirm:hover { background: #fef2f2; }
+
+        @media (max-width: 900px) {
+            nav, .hero-bar, .flash-messages { padding-left: 20px; padding-right: 20px; }
+            .page-content { padding: 24px 20px 40px; }
+            .profile-name { display: none; }
+            .danger-row { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-logo">Docu<span>Tool</span></a>
+    <div class="nav-right">
+        <a href="/dashboard" class="back-btn">← Dashboard</a>
+        <span class="plan-badge">{{ user.plan }}</span>
+        <div class="profile-wrapper" id="profileWrapper">
+            <div class="profile-btn" onclick="toggleDropdown()">
+                <div class="avatar">{{ user.email[0].upper() }}</div>
+                <span class="profile-name">{{ user.email.split('@')[0] }}</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="dropdown">
+                <div class="dropdown-header">
+                    <div class="d-name">{{ user.email.split('@')[0]|capitalize }}</div>
+                    <div class="d-email">{{ user.email }}</div>
+                    <span class="d-badge">{{ user.plan }} plan</span>
+                </div>
+                <div class="dropdown-section">
+                    <a href="/account" class="dropdown-item">
+                        <span class="di-icon">👤</span> My Account
+                    </a>
+                    <a href="/billing" class="dropdown-item">
+                        <span class="di-icon">💳</span> Billing & Plan
+                    </a>
+                </div>
+                <div class="dropdown-section">
+                    <button class="dropdown-item danger" onclick="openCancelModal()">
+                        <span class="di-icon">❌</span> Cancel Subscription
+                    </button>
+                    <a href="/logout" class="dropdown-item">
+                        <span class="di-icon">🚪</span> Log out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+                <div class="flash-msg">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="hero-bar">
+    <h1>My Account</h1>
+    <p>Manage your profile, subscription, and billing details</p>
+</div>
+
+<div class="page-content">
+
+    <!-- Account Info -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header-icon">👤</div>
+            <div>
+                <h2>Account Info</h2>
+                <p>Your personal details</p>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="info-row">
+                <span class="info-label">Email address</span>
+                <span class="info-value">{{ user.email }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Member since</span>
+                <span class="info-value">{{ user.created_at.strftime('%B %d, %Y') }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Current plan</span>
+                <span class="info-value">{{ user.plan|capitalize }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscription Status -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header-icon">💳</div>
+            <div>
+                <h2>Subscription</h2>
+                <p>Your billing and plan details</p>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="info-row">
+                <span class="info-label">Status</span>
+                <span class="info-value">
+                    {% if subscription_status == 'trialing' %}
+                        <span class="pill trialing"><span class="pill-dot"></span>Free Trial</span>
+                    {% elif subscription_status == 'active' and cancel_at_period_end %}
+                        <span class="pill cancelled"><span class="pill-dot"></span>Cancelling</span>
+                    {% elif subscription_status == 'active' %}
+                        <span class="pill active"><span class="pill-dot"></span>Active</span>
+                    {% elif subscription_status in ['canceled', 'cancelled'] %}
+                        <span class="pill cancelled"><span class="pill-dot"></span>Cancelled</span>
+                    {% else %}
+                        <span class="pill inactive"><span class="pill-dot"></span>Inactive</span>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Plan</span>
+                <span class="info-value">DocuTool {{ user.plan|capitalize }}</span>
+            </div>
+            {% if trial_end %}
+            <div class="info-row">
+                <span class="info-label">Trial ends</span>
+                <span class="info-value">{{ trial_end }}</span>
+            </div>
+            {% endif %}
+            {% if current_period_end %}
+            <div class="info-row">
+                <span class="info-label">
+                    {% if cancel_at_period_end %}Access until{% else %}Next billing date{% endif %}
+                </span>
+                <span class="info-value">{{ current_period_end }}</span>
+            </div>
+            {% endif %}
+            {% if cancel_at_period_end %}
+            <div class="info-row">
+                <span class="info-label">Note</span>
+                <span class="info-value" style="color:#ef4444; font-size:13px;">Your subscription is set to cancel at the end of the billing period.</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="danger-zone">
+        <div class="danger-header">
+            <h2>⚠️ Danger Zone</h2>
+            <p>Actions here are permanent and cannot be undone</p>
+        </div>
+        <div class="danger-body">
+            <div class="danger-row">
+                <p>Cancel your subscription. You'll keep access until the end of your current billing period, then lose access to all tools.</p>
+                {% if cancel_at_period_end or subscription_status in ['canceled', 'cancelled'] %}
+                    <button class="btn-cancelled-already" disabled>Already cancelled</button>
+                {% else %}
+                    <button class="btn-cancel" onclick="openCancelModal()">Cancel subscription</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Cancel Modal -->
+<div class="modal-overlay" id="cancelModal">
+    <div class="modal">
+        <div class="modal-icon">😢</div>
+        <h3>Cancel your subscription?</h3>
+        <p>You'll lose access to all DocuTool features at the end of your current billing period. This cannot be undone.</p>
+        <div class="modal-buttons">
+            <button class="btn-keep" onclick="closeCancelModal()">Keep my plan</button>
+            <form action="/cancel-subscription" method="POST" style="flex:1">
+                <button type="submit" class="btn-cancel-confirm" style="width:100%">Yes, cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleDropdown() {
+        document.getElementById('profileWrapper').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+        const wrapper = document.getElementById('profileWrapper');
+        if (!wrapper.contains(e.target)) wrapper.classList.remove('open');
+    });
+    function openCancelModal() {
+        document.getElementById('profileWrapper').classList.remove('open');
+        document.getElementById('cancelModal').classList.add('open');
+    }
+    function closeCancelModal() {
+        document.getElementById('cancelModal').classList.remove('open');
+    }
+</script>
+
+</body>
+</html>
