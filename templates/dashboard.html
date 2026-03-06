@@ -3,46 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocuTool - Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Dashboard – DocuTool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8f9ff; min-height: 100vh; }
+        nav {
+            padding: 18px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-logo { font-size: 22px; font-weight: 800; color: #1a1a2e; text-decoration: none; }
+        .nav-logo span { color: #4F46E5; }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .plan-badge {
+            background: #ede9fe;
+            color: #4F46E5;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .nav-email { font-size: 14px; color: #64748b; font-weight: 500; }
+        .logout-btn {
+            padding: 8px 18px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .logout-btn:hover { border-color: #4F46E5; color: #4F46E5; }
+        .hero-bar {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
+            padding: 48px 60px;
+        }
+        .hero-bar h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+        }
+        .hero-bar p { color: #94a3b8; font-size: 15px; }
+        .hero-bar p span { color: #818cf8; font-weight: 600; }
+        .tools { padding: 48px 60px; max-width: 1200px; }
+        .tools h2 { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 24px; letter-spacing: -0.5px; }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .tool-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 32px 28px;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: block;
+        }
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4F46E5, #8b5cf6);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tool-card:hover {
+            border-color: #c7d2fe;
+            box-shadow: 0 16px 48px rgba(79,70,229,0.12);
+            transform: translateY(-4px);
+        }
+        .tool-card:hover::before { opacity: 1; }
+        .tool-icon { font-size: 40px; margin-bottom: 16px; display: block; }
+        .tool-card h3 { font-size: 19px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+        .tool-card p { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
+        .tool-link {
+            font-size: 14px;
+            font-weight: 700;
+            color: #4F46E5;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        @media (max-width: 768px) {
+            nav, .hero-bar, .tools { padding-left: 24px; padding-right: 24px; }
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
+    <nav>
+        <a href="/" class="nav-logo">Docu<span>Tool</span></a>
+        <div class="nav-right">
+            <span class="plan-badge">{{ user.plan }}</span>
+            <span class="nav-email">{{ user.email }}</span>
+            <a href="/logout" class="logout-btn">Log out</a>
+        </div>
+    </nav>
 
-<nav class="navbar navbar-dark bg-dark px-4">
-    <a class="navbar-brand fw-bold" href="/">DocuTool</a>
-    <div>
-        <span class="text-white me-3">{{ user.email }}</span>
-        <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
+    <div class="hero-bar">
+        <h1>Welcome back 👋</h1>
+        <p>You're on the <span>{{ user.plan|capitalize }}</span> plan. Choose a tool below to get started.</p>
     </div>
-</nav>
 
-<div class="container mt-5">
-    <h3 class="fw-bold mb-4">Welcome, {{ user.email }}!</h3>
-
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="bg-white rounded shadow p-4 text-center">
-                <h5>📄 PDF Merge & Split</h5>
-                <p class="text-muted">Combine or split your PDF files</p>
-                <a href="/merge" class="btn btn-primary w-100">Open Tool</a>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="bg-white rounded shadow p-4 text-center">
-                <h5>🔄 PDF ↔ Word</h5>
-                <p class="text-muted">Convert between PDF and Word</p>
-                <a href="/convert" class="btn btn-primary w-100">Open Tool</a>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="bg-white rounded shadow p-4 text-center">
-                <h5>🗜️ File Compression</h5>
-                <p class="text-muted">Compress PDFs and images</p>
-                <a href="/compress" class="btn btn-primary w-100">Open Tool</a>
-            </div>
+    <div class="tools">
+        <h2>Your tools</h2>
+        <div class="tools-grid">
+            <a href="/merge" class="tool-card">
+                <span class="tool-icon">📄</span>
+                <h3>Merge PDFs</h3>
+                <p>Combine multiple PDF files into one perfectly ordered document in seconds.</p>
+                <div class="tool-link">Open tool →</div>
+            </a>
+            <a href="/convert" class="tool-card">
+                <span class="tool-icon">📝</span>
+                <h3>PDF to Word</h3>
+                <p>Convert any PDF into a fully editable Word document with layout preserved.</p>
+                <div class="tool-link">Open tool →</div>
+            </a>
+            <a href="/compress" class="tool-card">
+                <span class="tool-icon">🗜️</span>
+                <h3>Compress PDF</h3>
+                <p>Reduce file sizes without losing quality. Perfect for email and cloud storage.</p>
+                <div class="tool-link">Open tool →</div>
+            </a>
         </div>
     </div>
-</div>
-
 </body>
 </html>
