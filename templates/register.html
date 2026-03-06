@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuTool - Create Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark px-4">
+    <a class="navbar-brand fw-bold" href="/">DocuTool</a>
+</nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 bg-white p-5 rounded shadow">
+            <h3 class="fw-bold text-center mb-1">Create your account</h3>
+            <p class="text-center text-muted mb-4">Card required. 3-day free trial. Cancel before day 4 to avoid being charged.</p>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-danger">{{ messages[0] }}</div>
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="/register">
+                <div class="mb-3">
+                    <label class="form-label">Choose your plan</label>
+                    <select name="plan" class="form-select" required>
+                        <option value="basic">Basic - $5/month</option>
+                        <option value="pro">Pro - $12/month</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email address</label>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" name="confirm_password" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Continue to Secure Checkout</button>
+            </form>
+
+            <p class="text-center mt-3">Already have an account? <a href="/login">Login</a></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

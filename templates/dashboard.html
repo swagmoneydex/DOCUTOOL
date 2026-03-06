@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuTool - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark px-4">
+    <a class="navbar-brand fw-bold" href="/">DocuTool</a>
+    <div>
+        <span class="text-white me-3">{{ user.email }}</span>
+        <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h3 class="fw-bold mb-4">Welcome, {{ user.email }}!</h3>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="bg-white rounded shadow p-4 text-center">
+                <h5>📄 PDF Merge & Split</h5>
+                <p class="text-muted">Combine or split your PDF files</p>
+                <a href="/merge" class="btn btn-primary w-100">Open Tool</a>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="bg-white rounded shadow p-4 text-center">
+                <h5>🔄 PDF ↔ Word</h5>
+                <p class="text-muted">Convert between PDF and Word</p>
+                <a href="/convert" class="btn btn-primary w-100">Open Tool</a>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="bg-white rounded shadow p-4 text-center">
+                <h5>🗜️ File Compression</h5>
+                <p class="text-muted">Compress PDFs and images</p>
+                <a href="/compress" class="btn btn-primary w-100">Open Tool</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
