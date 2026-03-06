@@ -280,7 +280,7 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', user=current_user)
+    return render_template('dashboard.html', user=current_user, now=datetime.utcnow())
 
 
 # ── ACCOUNT & BILLING ─────────────────────────────────────────────────────────
