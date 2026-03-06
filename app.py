@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 import stripe
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -13,20 +13,21 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
 app = Flask(__name__)
-app.secret_key = 'change_this_to_a_long_random_secret_key'
+app.secret_key = os.getenv('FLASK_SECRET_KEY', 'change_this_to_a_long_random_secret_key')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
-print("Stripe secret key loaded:", os.getenv('STRIPE_SECRET_KEY'))
 STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
 STRIPE_BASIC_PRICE_ID = os.getenv('STRIPE_BASIC_PRICE_ID')
 STRIPE_PRO_PRICE_ID = os.getenv('STRIPE_PRO_PRICE_ID')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
 
 BASE_URL = 'https://docutool-azg1.onrender.com'
 
@@ -53,6 +54,39 @@ class PendingSignup(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
+
+
+def create_user_from_checkout_session(checkout_session):
+    pending_id = checkout_session.get('client_reference_id')
+    if not pending_id:
+        return
+
+    pending_signup = PendingSignup.query.filter_by(id=pending_id).first()
+    if not pending_signup:
+        return
+
+    existing_user = User.query.filter_by(email=pending_signup.email).first()
+    if existing_user:
+        if not existing_user.stripe_customer_id:
+            existing_user.stripe_customer_id = checkout_session.get('customer')
+        if not existing_user.stripe_subscription_id:
+            existing_user.stripe_subscription_id = checkout_session.get('subscription')
+        db.session.delete(pending_signup)
+        db.session.commit()
+        return
+
+    user = User(
+        email=pending_signup.email,
+        password=pending_signup.password_hash,
+        plan=pending_signup.plan,
+        stripe_customer_id=checkout_session.get('customer'),
+        stripe_subscription_id=checkout_session.get('subscription'),
+        trial_ends_at=datetime.utcnow() + timedelta(days=3)
+    )
+
+    db.session.add(user)
+    db.session.delete(pending_signup)
+    db.session.commit()
 
 
 @app.route('/')
@@ -143,45 +177,41 @@ def checkout_success():
         flash('Checkout was not completed.')
         return redirect(url_for('register'))
 
-    pending_id = checkout_session.client_reference_id
-    pending_signup = PendingSignup.query.filter_by(id=pending_id).first()
-
-    if not pending_signup:
-        existing_user = User.query.filter_by(email=checkout_session.customer_email).first()
-        if existing_user:
-            login_user(existing_user)
-            return redirect(url_for('dashboard'))
-
-        flash('Pending signup not found.')
-        return redirect(url_for('register'))
-
-    existing_user = User.query.filter_by(email=pending_signup.email).first()
+    existing_user = User.query.filter_by(email=checkout_session.customer_email).first()
     if existing_user:
-        db.session.delete(pending_signup)
-        db.session.commit()
         login_user(existing_user)
         return redirect(url_for('dashboard'))
 
-    user = User(
-        email=pending_signup.email,
-        password=pending_signup.password_hash,
-        plan=pending_signup.plan,
-        stripe_customer_id=checkout_session.customer,
-        stripe_subscription_id=checkout_session.subscription,
-        trial_ends_at=datetime.utcnow() + timedelta(days=3)
-    )
-
-    db.session.add(user)
-    db.session.delete(pending_signup)
-    db.session.commit()
-
-    login_user(user)
-    return redirect(url_for('dashboard'))
+    flash('Payment received. Your account is being finalized. Please log in in a few seconds.')
+    return redirect(url_for('login'))
 
 
 @app.route('/checkout/cancel')
 def checkout_cancel():
     return render_template('cancel.html')
+
+
+@app.route('/webhook', methods=['POST'])
+def stripe_webhook():
+    payload = request.get_data()
+    sig_header = request.headers.get('Stripe-Signature')
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload,
+            sig_header,
+            STRIPE_WEBHOOK_SECRET
+        )
+    except ValueError:
+        return 'Invalid payload', 400
+    except stripe.error.SignatureVerificationError:
+        return 'Invalid signature', 400
+
+    if event['type'] == 'checkout.session.completed':
+        checkout_session = event['data']['object']
+        create_user_from_checkout_session(checkout_session)
+
+    return 'OK', 200
 
 
 @app.route('/login', methods=['GET', 'POST'])
