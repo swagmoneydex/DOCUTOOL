@@ -335,7 +335,6 @@ def convert():
             from pdf2docx import Converter as PDFConverter
 
             if len(files) == 1:
-                # Single file — return the .docx directly
                 f = files[0]
                 with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as tmp_pdf:
                     f.save(tmp_pdf.name)
@@ -362,7 +361,6 @@ def convert():
                 )
 
             else:
-                # Multiple files — zip all converted .docx files
                 zip_buffer = io.BytesIO()
                 with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zf:
                     for f in files:
@@ -397,10 +395,82 @@ def convert():
     return render_template('convert.html')
 
 
-@app.route('/compress')
+@app.route('/compress', methods=['GET', 'POST'])
 @login_required
 def compress():
-    return '<h2>Compression tool coming next</h2>'
+    if request.method == 'POST':
+        files = request.files.getlist('pdfs')
+
+        if not files or all(f.filename == '' for f in files):
+            flash('Please upload at least one PDF file.')
+            return redirect(url_for('compress'))
+
+        for f in files:
+            if not f.filename.lower().endswith('.pdf'):
+                flash('All files must be PDFs.')
+                return redirect(url_for('compress'))
+
+        try:
+            from pypdf import PdfWriter, PdfReader
+
+            if len(files) == 1:
+                f = files[0]
+                reader = PdfReader(f)
+                writer = PdfWriter()
+
+                for page in reader.pages:
+                    page.compress_content_streams()
+                    writer.add_page(page)
+
+                if reader.metadata:
+                    writer.add_metadata(reader.metadata)
+
+                output = io.BytesIO()
+                writer.write(output)
+                output.seek(0)
+
+                original_name = os.path.splitext(f.filename)[0]
+                return send_file(
+                    output,
+                    mimetype='application/pdf',
+                    as_attachment=True,
+                    download_name=f'{original_name}_compressed.pdf'
+                )
+
+            else:
+                zip_buffer = io.BytesIO()
+                with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zf:
+                    for f in files:
+                        reader = PdfReader(f)
+                        writer = PdfWriter()
+
+                        for page in reader.pages:
+                            page.compress_content_streams()
+                            writer.add_page(page)
+
+                        if reader.metadata:
+                            writer.add_metadata(reader.metadata)
+
+                        compressed = io.BytesIO()
+                        writer.write(compressed)
+                        compressed.seek(0)
+
+                        original_name = os.path.splitext(f.filename)[0]
+                        zf.writestr(f'{original_name}_compressed.pdf', compressed.read())
+
+                zip_buffer.seek(0)
+                return send_file(
+                    zip_buffer,
+                    mimetype='application/zip',
+                    as_attachment=True,
+                    download_name='compressed.zip'
+                )
+
+        except Exception as e:
+            flash(f'Error compressing PDF: {str(e)}')
+            return redirect(url_for('compress'))
+
+    return render_template('compress.html')
 
 
 with app.app_context():
