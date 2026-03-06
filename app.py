@@ -506,8 +506,10 @@ def compress():
                 writer = PdfWriter()
 
                 for page in reader.pages:
-                    page.compress_content_streams()
                     writer.add_page(page)
+
+                for page in writer.pages:
+                    page.compress_content_streams()
 
                 if reader.metadata:
                     writer.add_metadata(reader.metadata)
@@ -532,8 +534,10 @@ def compress():
                         writer = PdfWriter()
 
                         for page in reader.pages:
-                            page.compress_content_streams()
                             writer.add_page(page)
+
+                        for page in writer.pages:
+                            page.compress_content_streams()
 
                         if reader.metadata:
                             writer.add_metadata(reader.metadata)
