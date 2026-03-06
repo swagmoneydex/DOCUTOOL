@@ -1,10 +1,12 @@
+import io
 import os
 import uuid
+import zipfile
 from datetime import datetime, timedelta
 
 import stripe
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -178,19 +180,16 @@ def checkout_success():
         flash('Checkout was not completed.')
         return redirect(url_for('register'))
 
-    # Check if webhook already created the user
     existing_user = User.query.filter_by(email=checkout_session.customer_email).first()
     if existing_user:
         login_user(existing_user)
         return redirect(url_for('dashboard'))
 
-    # Webhook hasn't fired yet — create the user right now from the session
     user = create_user_from_checkout_session(checkout_session)
     if user:
         login_user(user)
         return redirect(url_for('dashboard'))
 
-    # Should never reach here, but just in case
     flash('Payment received but account setup failed. Please contact support.')
     return redirect(url_for('login'))
 
@@ -254,10 +253,69 @@ def dashboard():
     return render_template('dashboard.html', user=current_user)
 
 
-@app.route('/merge')
+@app.route('/merge', methods=['GET', 'POST'])
 @login_required
 def merge():
-    return '<h2>PDF Merge tool coming next</h2>'
+    if request.method == 'POST':
+        files = request.files.getlist('pdfs')
+        mode = request.form.get('mode', 'single')
+
+        if len(files) < 2:
+            flash('Please upload at least 2 PDF files.')
+            return redirect(url_for('merge'))
+
+        for f in files:
+            if not f.filename.lower().endswith('.pdf'):
+                flash('All files must be PDFs.')
+                return redirect(url_for('merge'))
+
+        try:
+            from pypdf import PdfWriter
+
+            if mode == 'zip':
+                # Merge all into one PDF, then zip it
+                writer = PdfWriter()
+                for f in files:
+                    writer.append(f)
+
+                merged_pdf = io.BytesIO()
+                writer.write(merged_pdf)
+                merged_pdf.seek(0)
+
+                zip_buffer = io.BytesIO()
+                with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zf:
+                    zf.writestr('merged.pdf', merged_pdf.read())
+                zip_buffer.seek(0)
+
+                return send_file(
+                    zip_buffer,
+                    mimetype='application/zip',
+                    as_attachment=True,
+                    download_name='merged.zip'
+                )
+
+            else:
+                # Default: merge into a single PDF and download directly
+                writer = PdfWriter()
+                for f in files:
+                    writer.append(f)
+
+                output = io.BytesIO()
+                writer.write(output)
+                output.seek(0)
+
+                return send_file(
+                    output,
+                    mimetype='application/pdf',
+                    as_attachment=True,
+                    download_name='merged.pdf'
+                )
+
+        except Exception as e:
+            flash(f'Error merging PDFs: {str(e)}')
+            return redirect(url_for('merge'))
+
+    return render_template('merge.html')
 
 
 @app.route('/convert')
