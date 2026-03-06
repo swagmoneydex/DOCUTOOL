@@ -28,7 +28,7 @@ STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
 STRIPE_BASIC_PRICE_ID = os.getenv('STRIPE_BASIC_PRICE_ID')
 STRIPE_PRO_PRICE_ID = os.getenv('STRIPE_PRO_PRICE_ID')
 
-BASE_URL = 'http://127.0.0.1:5000'
+BASE_URL = 'https://docutool-azg1.onrender.com'
 
 
 class User(UserMixin, db.Model):
