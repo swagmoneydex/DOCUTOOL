@@ -587,7 +587,6 @@
             border-top: 1px solid rgba(255,255,255,0.06);
         }
 
-
         .footer-logo {
             font-size: 20px;
             font-weight: 800;
@@ -617,14 +616,136 @@
             font-size: 13px;
         }
 
-        /* ── RESPONSIVE ── */
+        /* ── MOBILE ── */
         @media (max-width: 768px) {
-            nav { padding: 16px 24px; }
-            .nav-links { display: none; }
-            .features, .how-it-works, .pricing, .cta-banner { padding: 70px 24px; }
-            .trust-bar { padding: 24px; }
-            footer { padding: 32px 24px; flex-direction: column; text-align: center; }
-            .pricing-card.popular { transform: scale(1); }
+            /* Nav */
+            nav {
+                padding: 14px 20px;
+            }
+            .nav-logo {
+                font-size: 19px;
+                flex: none;
+            }
+            .nav-links {
+                display: none;
+            }
+            .nav-cta {
+                flex: none;
+                gap: 8px;
+            }
+            .btn-outline {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+            .btn-primary {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            /* Hero */
+            .hero {
+                padding: 100px 20px 60px;
+                min-height: auto;
+            }
+            .hero-badge {
+                font-size: 11px;
+                padding: 5px 12px;
+                margin-bottom: 20px;
+            }
+            .hero h1 {
+                font-size: 36px;
+                letter-spacing: -1px;
+                margin-bottom: 16px;
+            }
+            .hero p {
+                font-size: 15px;
+                margin-bottom: 28px;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .hero-btn-primary,
+            .hero-btn-secondary {
+                width: 100%;
+                max-width: 320px;
+                padding: 14px 24px;
+                font-size: 15px;
+                text-align: center;
+            }
+            .hero-note {
+                font-size: 12px;
+            }
+
+            /* Trust bar */
+            .trust-bar {
+                padding: 20px 20px;
+            }
+            .trust-logos {
+                gap: 24px;
+            }
+            .trust-logos span {
+                font-size: 15px;
+            }
+
+            /* Features */
+            .features {
+                padding: 60px 20px;
+            }
+            .section-sub {
+                font-size: 15px;
+                margin-bottom: 40px;
+            }
+            .feature-card {
+                padding: 28px 22px;
+            }
+
+            /* How it works */
+            .how-it-works {
+                padding: 60px 20px;
+            }
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            /* Pricing */
+            .pricing {
+                padding: 60px 20px;
+            }
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .pricing-card {
+                padding: 32px 24px;
+            }
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+            .pricing-price {
+                font-size: 44px;
+            }
+
+            /* CTA banner */
+            .cta-banner {
+                padding: 56px 20px;
+            }
+            .cta-banner p {
+                font-size: 15px;
+            }
+
+            /* Footer */
+            footer {
+                padding: 32px 20px;
+                gap: 16px;
+            }
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 16px;
+            }
         }
     </style>
 </head>

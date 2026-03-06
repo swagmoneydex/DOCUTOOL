@@ -147,6 +147,7 @@
             background: #ede9fe;
             display: flex; align-items: center; justify-content: center;
             font-size: 18px;
+            flex-shrink: 0;
         }
         .card-header h2 { font-size: 16px; font-weight: 700; color: #1a1a2e; }
         .card-header p { font-size: 12px; color: #94a3b8; margin-top: 1px; }
@@ -159,11 +160,12 @@
             justify-content: space-between;
             padding: 14px 0;
             border-bottom: 1px solid #f8f9ff;
+            gap: 12px;
         }
         .info-row:last-child { border-bottom: none; padding-bottom: 0; }
         .info-row:first-child { padding-top: 0; }
-        .info-label { font-size: 13px; color: #94a3b8; font-weight: 500; }
-        .info-value { font-size: 14px; color: #1a1a2e; font-weight: 600; text-align: right; }
+        .info-label { font-size: 13px; color: #94a3b8; font-weight: 500; flex-shrink: 0; }
+        .info-value { font-size: 14px; color: #1a1a2e; font-weight: 600; text-align: right; word-break: break-word; }
 
         /* ── STATUS PILLS ── */
         .pill {
@@ -257,11 +259,104 @@
         }
         .btn-cancel-confirm:hover { background: #fef2f2; }
 
-        @media (max-width: 900px) {
-            nav, .hero-bar, .flash-messages { padding-left: 20px; padding-right: 20px; }
-            .page-content { padding: 24px 20px 40px; }
-            .profile-name { display: none; }
-            .danger-row { flex-direction: column; align-items: flex-start; }
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            /* Nav */
+            nav {
+                padding: 12px 16px;
+                gap: 8px;
+            }
+            .nav-logo {
+                font-size: 19px;
+            }
+            .nav-right {
+                gap: 8px;
+            }
+            .plan-badge {
+                display: none;
+            }
+            .back-btn {
+                padding: 7px 12px;
+                font-size: 12px;
+            }
+            .profile-name {
+                display: none;
+            }
+            .profile-btn {
+                padding: 6px 10px 6px 6px;
+            }
+
+            /* Flash */
+            .flash-messages {
+                padding: 0 16px;
+                margin-top: 12px;
+            }
+
+            /* Hero bar */
+            .hero-bar {
+                padding: 32px 20px;
+            }
+            .hero-bar h1 {
+                font-size: 22px;
+                letter-spacing: -0.5px;
+            }
+            .hero-bar p {
+                font-size: 13px;
+            }
+
+            /* Page content */
+            .page-content {
+                margin: 20px auto;
+                padding: 0 16px 40px;
+                gap: 16px;
+            }
+
+            /* Cards */
+            .card-header {
+                padding: 16px 18px;
+            }
+            .card-body {
+                padding: 16px 18px;
+            }
+
+            /* Info rows */
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+                padding: 12px 0;
+            }
+            .info-value {
+                text-align: left;
+            }
+
+            /* Danger zone */
+            .danger-header {
+                padding: 16px 18px;
+            }
+            .danger-body {
+                padding: 16px 18px;
+            }
+            .danger-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .btn-cancel,
+            .btn-cancelled-already {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Modal */
+            .modal {
+                padding: 28px 20px;
+            }
+            .modal h3 {
+                font-size: 18px;
+            }
+            .modal-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
