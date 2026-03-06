@@ -21,16 +21,7 @@
         }
         .nav-logo { font-size: 22px; font-weight: 800; color: #1a1a2e; text-decoration: none; }
         .nav-logo span { color: #4F46E5; }
-        .back-btn {
-            font-size: 14px;
-            font-weight: 600;
-            color: #64748b;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: color 0.2s;
-        }
+        .back-btn { font-size: 14px; font-weight: 600; color: #64748b; text-decoration: none; transition: color 0.2s; }
         .back-btn:hover { color: #4F46E5; }
         .page { display: flex; align-items: center; justify-content: center; padding: 60px 20px; }
         .card {
@@ -48,15 +39,17 @@
         .upload-area {
             border: 2px dashed #c7d2fe;
             border-radius: 12px;
-            padding: 32px 20px;
+            padding: 28px 20px;
             text-align: center;
             background: #fafbff;
             cursor: pointer;
             transition: all 0.2s;
             margin-bottom: 20px;
             position: relative;
+            min-height: 90px;
         }
         .upload-area:hover { border-color: #4F46E5; background: #f0f0ff; }
+        .upload-area.has-files { border-color: #4F46E5; background: #f0f0ff; }
         .upload-area input[type="file"] {
             position: absolute;
             inset: 0;
@@ -65,8 +58,38 @@
             width: 100%;
             height: 100%;
         }
-        .upload-area p { font-size: 15px; color: #64748b; font-weight: 500; }
-        .upload-area span { font-size: 13px; color: #94a3b8; display: block; margin-top: 4px; }
+        .upload-placeholder p { font-size: 15px; color: #64748b; font-weight: 500; }
+        .upload-placeholder span { font-size: 13px; color: #94a3b8; display: block; margin-top: 4px; }
+        .file-list { text-align: left; }
+        .file-list-header {
+            font-size: 13px;
+            font-weight: 700;
+            color: #4F46E5;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            background: white;
+            border: 1px solid #e0e7ff;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #374151;
+            font-weight: 500;
+        }
+        .file-item span.size { color: #94a3b8; margin-left: auto; font-size: 12px; }
+        .change-hint {
+            font-size: 12px;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 8px;
+        }
         label.radio-label {
             display: flex;
             align-items: center;
@@ -117,11 +140,15 @@
             {% endwith %}
 
             <form method="POST" enctype="multipart/form-data">
-                <div class="upload-area">
-                    <input type="file" name="pdfs" accept=".pdf" multiple required>
-                    <p>📂 Click to select PDFs</p>
-                    <span>Select 2 or more files · PDF only</span>
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" name="pdfs" accept=".pdf" multiple required id="fileInput">
+                    <div class="upload-placeholder" id="placeholder">
+                        <p>📂 Click to select PDFs</p>
+                        <span>Select 2 or more files · PDF only</span>
+                    </div>
+                    <div class="file-list" id="fileList" style="display:none;"></div>
                 </div>
+                <p class="change-hint" id="changeHint" style="display:none;">Click the box above to change files</p>
 
                 <div class="radio-group">
                     <p>Download as:</p>
@@ -137,5 +164,44 @@
             </form>
         </div>
     </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const placeholder = document.getElementById('placeholder');
+        const fileList = document.getElementById('fileList');
+        const uploadArea = document.getElementById('uploadArea');
+        const changeHint = document.getElementById('changeHint');
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        fileInput.addEventListener('change', function () {
+            const files = Array.from(this.files);
+            if (files.length === 0) {
+                placeholder.style.display = 'block';
+                fileList.style.display = 'none';
+                uploadArea.classList.remove('has-files');
+                changeHint.style.display = 'none';
+                return;
+            }
+
+            placeholder.style.display = 'none';
+            uploadArea.classList.add('has-files');
+            changeHint.style.display = 'block';
+
+            fileList.innerHTML = `<div class="file-list-header">✅ ${files.length} file${files.length > 1 ? 's' : ''} selected</div>`;
+            files.forEach(file => {
+                fileList.innerHTML += `
+                    <div class="file-item">
+                        📄 ${file.name}
+                        <span class="size">${formatSize(file.size)}</span>
+                    </div>`;
+            });
+            fileList.style.display = 'block';
+        });
+    </script>
 </body>
 </html>
