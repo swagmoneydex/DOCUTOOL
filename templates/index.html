@@ -40,17 +40,18 @@
             color: #1a1a2e;
             text-decoration: none;
             letter-spacing: -0.5px;
+            flex: 1;
         }
 
-        .nav-logo span {
-            color: #4F46E5;
-        }
+        .nav-logo span { color: #4F46E5; }
 
         .nav-links {
             display: flex;
             align-items: center;
             gap: 36px;
             list-style: none;
+            flex: 1;
+            justify-content: center;
         }
 
         .nav-links a {
@@ -66,6 +67,8 @@
         .nav-cta {
             display: flex;
             gap: 12px;
+            flex: 1;
+            justify-content: flex-end;
         }
 
         .btn-outline {
@@ -229,7 +232,7 @@
             font-size: 13px;
         }
 
-        /* ── LOGOS / TRUST ── */
+        /* ── TRUST BAR ── */
         .trust-bar {
             background: #f8f9ff;
             padding: 28px 60px;
@@ -331,9 +334,7 @@
             transform: translateY(-4px);
         }
 
-        .feature-card:hover::before {
-            opacity: 1;
-        }
+        .feature-card:hover::before { opacity: 1; }
 
         .feature-icon {
             font-size: 36px;
@@ -450,7 +451,6 @@
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 10px;
-            color: inherit;
         }
 
         .pricing-card:not(.popular) .pricing-name { color: #1a1a2e; }
@@ -459,7 +459,6 @@
             font-size: 52px;
             font-weight: 800;
             letter-spacing: -2px;
-            color: inherit;
         }
 
         .pricing-card:not(.popular) .pricing-price { color: #1a1a2e; }
@@ -495,13 +494,15 @@
             align-items: center;
             gap: 10px;
             border-bottom: 1px solid rgba(0,0,0,0.05);
-            color: inherit;
             opacity: 0.9;
         }
 
         .pricing-card.popular .pricing-features li {
             border-bottom-color: rgba(255,255,255,0.1);
+            color: white;
         }
+
+        .pricing-card:not(.popular) .pricing-features li { color: #374151; }
 
         .pricing-features li::before {
             content: '✓';
@@ -511,9 +512,7 @@
             flex-shrink: 0;
         }
 
-        .pricing-card.popular .pricing-features li::before {
-            color: #a5f3fc;
-        }
+        .pricing-card.popular .pricing-features li::before { color: #a5f3fc; }
 
         .pricing-btn {
             display: block;
@@ -646,14 +645,14 @@
 <!-- HERO -->
 <section class="hero">
     <div class="hero-content">
-        <div class="hero-badge">✦ 3-day free trial · No credit card required</div>
+        <div class="hero-badge">✦ Start free for 3 days — no commitment</div>
         <h1>Your PDFs.<br><span>Handled instantly.</span></h1>
         <p>Merge, convert, and compress PDFs in seconds. Clean, fast, and professional — built for people who work with documents every day.</p>
         <div class="hero-buttons">
             <a href="/register" class="hero-btn-primary">Start for free →</a>
             <a href="#features" class="hero-btn-secondary">See what it does</a>
         </div>
-        <p class="hero-note">3-day free trial · Cancel anytime · No credit card needed to start</p>
+        <p class="hero-note">3-day free trial · Cancel anytime · Plans from $5/mo</p>
     </div>
 </section>
 
@@ -721,11 +720,11 @@
 <section class="pricing" id="pricing">
     <p class="section-label">Simple pricing</p>
     <h2 class="section-title">One tool. Two plans.</h2>
-    <p class="section-sub">Start with a 3-day free trial on either plan. No credit card required to try.</p>
+    <p class="section-sub">Start with a 3-day free trial on either plan. Cancel anytime.</p>
     <div class="pricing-grid">
         <div class="pricing-card">
             <div class="pricing-name">Basic</div>
-            <div class="pricing-price"><sup>$</sup>9<span>/mo</span></div>
+            <div class="pricing-price"><sup>$</sup>5<span>/mo</span></div>
             <p class="pricing-desc">Everything you need for everyday PDF work.</p>
             <ul class="pricing-features">
                 <li>PDF Merge</li>
@@ -739,7 +738,7 @@
         <div class="pricing-card popular">
             <div class="popular-badge">Most Popular</div>
             <div class="pricing-name">Pro</div>
-            <div class="pricing-price"><sup>$</sup>19<span>/mo</span></div>
+            <div class="pricing-price"><sup>$</sup>12<span>/mo</span></div>
             <p class="pricing-desc">For power users who live in their documents.</p>
             <ul class="pricing-features">
                 <li>Everything in Basic</li>
