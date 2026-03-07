@@ -171,6 +171,8 @@ def register():
     return render_template('register.html')
 
 
+# ── CHECKOUT SUCCESS (renders success.html → fires conversion tag) ─────────────
+
 @app.route('/checkout/success')
 def checkout_success():
     session_id = request.args.get('session_id')
@@ -192,12 +194,12 @@ def checkout_success():
     existing_user = User.query.filter_by(email=checkout_session.customer_email).first()
     if existing_user:
         login_user(existing_user)
-        return redirect(url_for('dashboard'))
+        return render_template('success.html')  # ← fires conversion tag
 
     user = create_user_from_checkout_session(checkout_session)
     if user:
         login_user(user)
-        return redirect(url_for('dashboard'))
+        return render_template('success.html')  # ← fires conversion tag
 
     flash('Payment received but account setup failed. Please contact support.')
     return redirect(url_for('login'))
@@ -567,7 +569,6 @@ def compress_image():
                 ext = f.filename.rsplit('.', 1)[-1].lower()
                 img = Image.open(f)
 
-                # Convert palette/RGBA to RGB for JPEG output
                 output_ext = 'jpeg' if ext in ('jpg', 'jpeg') else ext
                 if output_ext == 'jpeg' and img.mode in ('RGBA', 'P'):
                     img = img.convert('RGB')
