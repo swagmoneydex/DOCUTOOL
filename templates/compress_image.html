@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compress Images – DocuTool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8f9ff; min-height: 100vh; }
+
+        nav {
+            padding: 16px 60px;
+            display: flex; align-items: center; justify-content: space-between;
+            background: white; border-bottom: 1px solid #e5e7eb;
+            position: sticky; top: 0; z-index: 200;
+        }
+        .nav-logo { font-size: 22px; font-weight: 800; color: #1a1a2e; text-decoration: none; }
+        .nav-logo span { color: #4F46E5; }
+        .back-btn {
+            display: flex; align-items: center; gap: 6px;
+            padding: 8px 16px; border: 1.5px solid #e5e7eb;
+            border-radius: 8px; font-size: 13px; font-weight: 600;
+            color: #64748b; text-decoration: none; transition: all 0.2s;
+        }
+        .back-btn:hover { border-color: #4F46E5; color: #4F46E5; }
+
+        .hero-bar {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
+            padding: 48px 60px; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .hero-bar::before {
+            content: ''; position: absolute;
+            top: -80px; right: -80px; width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(79,70,229,0.3) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-icon { font-size: 44px; margin-bottom: 12px; }
+        .hero-bar h1 { font-size: 30px; font-weight: 800; color: white; letter-spacing: -1px; margin-bottom: 6px; }
+        .hero-bar p { color: #94a3b8; font-size: 14px; }
+
+        .page-content {
+            max-width: 700px; margin: 40px auto;
+            padding: 0 60px 60px;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+
+        .flash {
+            background: #fee2e2; color: #991b1b;
+            border: 1px solid #fecaca; border-radius: 10px;
+            padding: 12px 18px; font-size: 14px; font-weight: 500;
+        }
+
+        .card {
+            background: white; border: 1px solid #e5e7eb;
+            border-radius: 16px; overflow: hidden;
+        }
+        .card-header {
+            padding: 20px 28px; border-bottom: 1px solid #f1f5f9;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .card-header-icon {
+            width: 38px; height: 38px; border-radius: 10px;
+            background: #ede9fe; display: flex; align-items: center;
+            justify-content: center; font-size: 18px; flex-shrink: 0;
+        }
+        .card-header h2 { font-size: 16px; font-weight: 700; color: #1a1a2e; }
+        .card-header p { font-size: 12px; color: #94a3b8; margin-top: 1px; }
+        .card-body { padding: 28px; }
+
+        /* ── DROP ZONE ── */
+        .drop-zone {
+            border: 2px dashed #c7d2fe;
+            border-radius: 12px;
+            padding: 48px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f8f9ff;
+            position: relative;
+        }
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: #4F46E5;
+            background: #ede9fe;
+        }
+        .drop-zone input[type="file"] {
+            position: absolute; inset: 0;
+            opacity: 0; cursor: pointer; width: 100%; height: 100%;
+        }
+        .drop-icon { font-size: 40px; margin-bottom: 12px; }
+        .drop-zone h3 { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+        .drop-zone p { font-size: 13px; color: #94a3b8; }
+        .drop-zone .formats {
+            display: flex; gap: 8px; justify-content: center;
+            flex-wrap: wrap; margin-top: 14px;
+        }
+        .format-tag {
+            background: white; border: 1px solid #e5e7eb;
+            border-radius: 6px; padding: 3px 10px;
+            font-size: 11px; font-weight: 700;
+            color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        /* ── FILE LIST ── */
+        .file-list {
+            display: none; flex-direction: column; gap: 8px; margin-top: 16px;
+        }
+        .file-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px; background: #f8f9ff;
+            border: 1px solid #e5e7eb; border-radius: 8px;
+            font-size: 13px; gap: 10px;
+        }
+        .file-item-name { font-weight: 600; color: #1a1a2e; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .file-item-size { color: #94a3b8; font-size: 12px; flex-shrink: 0; }
+        .file-item-remove {
+            background: none; border: none; cursor: pointer;
+            color: #ef4444; font-size: 16px; flex-shrink: 0;
+            padding: 0 4px; line-height: 1;
+        }
+
+        /* ── QUALITY SLIDER ── */
+        .quality-section { margin-top: 24px; }
+        .quality-label {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .quality-label span { font-size: 13px; font-weight: 600; color: #374151; }
+        .quality-value {
+            font-size: 14px; font-weight: 800; color: #4F46E5;
+            background: #ede9fe; padding: 2px 10px; border-radius: 6px;
+        }
+        input[type="range"] {
+            width: 100%; height: 6px; -webkit-appearance: none;
+            background: #e5e7eb; border-radius: 100px; outline: none;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 20px; height: 20px;
+            border-radius: 50%; background: #4F46E5;
+            box-shadow: 0 2px 8px rgba(79,70,229,0.4); cursor: pointer;
+        }
+        .quality-hints {
+            display: flex; justify-content: space-between;
+            margin-top: 6px; font-size: 11px; color: #94a3b8; font-weight: 500;
+        }
+
+        /* ── SUBMIT BUTTON ── */
+        .btn-submit {
+            width: 100%; padding: 14px;
+            background: #4F46E5; color: white;
+            border: none; border-radius: 10px;
+            font-size: 16px; font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer; transition: all 0.2s;
+            box-shadow: 0 6px 20px rgba(79,70,229,0.35);
+            margin-top: 24px;
+        }
+        .btn-submit:hover {
+            background: #4338CA; transform: translateY(-1px);
+            box-shadow: 0 8px 28px rgba(79,70,229,0.45);
+        }
+        .btn-submit:disabled {
+            background: #c7d2fe; box-shadow: none;
+            cursor: not-allowed; transform: none;
+        }
+
+        /* ── INFO CARD ── */
+        .info-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+        }
+        .info-item { text-align: center; padding: 16px 12px; }
+        .info-icon { font-size: 24px; margin-bottom: 8px; }
+        .info-title { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+        .info-desc { font-size: 12px; color: #94a3b8; line-height: 1.5; }
+
+        @media (max-width: 768px) {
+            nav { padding: 12px 16px; }
+            .hero-bar { padding: 32px 20px; }
+            .hero-bar h1 { font-size: 22px; }
+            .page-content { padding: 20px 16px 40px; margin: 20px auto; }
+            .card-body { padding: 18px; }
+            .info-grid { grid-template-columns: 1fr; gap: 0; }
+            .info-item { padding: 12px; border-bottom: 1px solid #f1f5f9; }
+            .info-item:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-logo">Docu<span>Tool</span></a>
+    <a href="/dashboard" class="back-btn">← Dashboard</a>
+</nav>
+
+<div class="hero-bar">
+    <div class="hero-icon">🖼️</div>
+    <h1>Compress Images</h1>
+    <p>Reduce image file sizes without sacrificing quality — JPG, PNG, WebP and more</p>
+</div>
+
+<div class="page-content">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header-icon">🖼️</div>
+            <div>
+                <h2>Upload Images</h2>
+                <p>JPG, PNG, WebP, BMP, TIFF supported · Up to 100MB per file</p>
+            </div>
+        </div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                <div class="drop-zone" id="dropZone">
+                    <input type="file" name="images" id="fileInput"
+                           accept=".jpg,.jpeg,.png,.webp,.bmp,.tiff"
+                           multiple onchange="handleFiles(this.files)">
+                    <div class="drop-icon">📁</div>
+                    <h3>Drop images here or click to browse</h3>
+                    <p>Upload one or multiple images at once</p>
+                    <div class="formats">
+                        <span class="format-tag">JPG</span>
+                        <span class="format-tag">PNG</span>
+                        <span class="format-tag">WebP</span>
+                        <span class="format-tag">BMP</span>
+                        <span class="format-tag">TIFF</span>
+                    </div>
+                </div>
+
+                <div class="file-list" id="fileList"></div>
+
+                <div class="quality-section">
+                    <div class="quality-label">
+                        <span>Compression Quality</span>
+                        <span class="quality-value" id="qualityDisplay">75%</span>
+                    </div>
+                    <input type="range" name="quality" id="qualitySlider"
+                           min="10" max="95" value="75"
+                           oninput="updateQuality(this.value)">
+                    <div class="quality-hints">
+                        <span>🗜️ Smaller file</span>
+                        <span>Balanced</span>
+                        <span>Higher quality 🔍</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn" disabled>
+                    Compress Images →
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header-icon">✨</div>
+            <div>
+                <h2>How it works</h2>
+                <p>Fast, secure, and easy</p>
+            </div>
+        </div>
+        <div class="card-body" style="padding: 8px 0;">
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-icon">📤</div>
+                    <div class="info-title">Upload</div>
+                    <div class="info-desc">Drop one or more images in any supported format</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">🎚️</div>
+                    <div class="info-title">Choose quality</div>
+                    <div class="info-desc">Pick your balance between file size and image clarity</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">⬇️</div>
+                    <div class="info-title">Download</div>
+                    <div class="info-desc">Get your compressed image instantly — or a ZIP for batches</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let selectedFiles = [];
+
+    function handleFiles(files) {
+        selectedFiles = Array.from(files);
+        renderFileList();
+    }
+
+    function renderFileList() {
+        const list = document.getElementById('fileList');
+        const btn = document.getElementById('submitBtn');
+
+        if (selectedFiles.length === 0) {
+            list.style.display = 'none';
+            btn.disabled = true;
+            return;
+        }
+
+        list.style.display = 'flex';
+        btn.disabled = false;
+        btn.textContent = selectedFiles.length === 1
+            ? 'Compress Image →'
+            : `Compress ${selectedFiles.length} Images →`;
+
+        list.innerHTML = selectedFiles.map((f, i) => `
+            <div class="file-item">
+                <span class="file-item-name">🖼️ ${f.name}</span>
+                <span class="file-item-size">${(f.size / 1024).toFixed(0)} KB</span>
+                <button class="file-item-remove" onclick="removeFile(${i})" type="button">✕</button>
+            </div>
+        `).join('');
+    }
+
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);
+        // Rebuild DataTransfer to update the input
+        const dt = new DataTransfer();
+        selectedFiles.forEach(f => dt.items.add(f));
+        document.getElementById('fileInput').files = dt.files;
+        renderFileList();
+    }
+
+    function updateQuality(val) {
+        document.getElementById('qualityDisplay').textContent = val + '%';
+    }
+
+    // Drag and drop
+    const dropZone = document.getElementById('dropZone');
+    dropZone.addEventListener('dragover', e => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        const dt = new DataTransfer();
+        Array.from(files).forEach(f => dt.items.add(f));
+        document.getElementById('fileInput').files = dt.files;
+        handleFiles(files);
+    });
+
+    // Loading state on submit
+    document.getElementById('uploadForm').addEventListener('submit', function() {
+        const btn = document.getElementById('submitBtn');
+        btn.textContent = '⏳ Compressing...';
+        btn.disabled = true;
+    });
+</script>
+
+</body>
+</html>

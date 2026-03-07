@@ -7,30 +7,30 @@
     <!-- ── PRIMARY SEO ── -->
     <title>DocuTool – Merge, Compress & Convert PDFs Online | Free Trial</title>
     <meta name="description" content="Merge, compress, and convert PDF files to Word online in seconds. Fast, secure, and professional PDF tools. Try free for 3 days. Plans from $5/mo.">
-    <meta name="keywords" content="merge PDF, compress PDF, PDF to Word, convert PDF online, PDF tools, reduce PDF size, combine PDF files">
+    <meta name="keywords" content="merge PDF, compress PDF, PDF to Word, convert PDF online, PDF tools, reduce PDF size, combine PDF files, compress images online, reduce image size">
     <meta name="author" content="DocuTool">
     <link rel="canonical" href="https://www.docutool.org/">
 
-    <!-- ── OPEN GRAPH (Facebook, LinkedIn previews) ── -->
+    <!-- ── OPEN GRAPH ── -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.docutool.org/">
     <meta property="og:title" content="DocuTool – Merge, Compress & Convert PDFs Online">
-    <meta property="og:description" content="Fast, secure PDF tools for professionals. Merge, compress, and convert PDFs to Word. Try free for 3 days.">
+    <meta property="og:description" content="Fast, secure PDF and image tools for professionals. Merge, compress, and convert PDFs to Word. Compress images. Try free for 3 days.">
     <meta property="og:site_name" content="DocuTool">
 
     <!-- ── TWITTER CARD ── -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="DocuTool – Merge, Compress & Convert PDFs Online">
-    <meta name="twitter:description" content="Fast, secure PDF tools for professionals. Merge, compress, and convert PDFs to Word. Try free for 3 days.">
+    <meta name="twitter:description" content="Fast, secure PDF and image tools for professionals. Try free for 3 days.">
 
-    <!-- ── STRUCTURED DATA (Google Rich Results) ── -->
+    <!-- ── STRUCTURED DATA ── -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "DocuTool",
       "url": "https://www.docutool.org",
-      "description": "Professional PDF tools — merge, compress, and convert PDFs to Word online.",
+      "description": "Professional PDF and image tools — merge, compress, and convert PDFs to Word, and compress images online.",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
       "offers": [
@@ -39,7 +39,7 @@
           "name": "Basic Plan",
           "price": "5.00",
           "priceCurrency": "USD",
-          "description": "PDF Merge, PDF to Word, PDF Compress. Up to 50MB per file."
+          "description": "PDF Merge, PDF to Word, PDF Compress, Image Compress. Up to 50MB per file."
         },
         {
           "@type": "Offer",
@@ -52,12 +52,13 @@
       "featureList": [
         "Merge PDF files online",
         "Compress PDF file size",
-        "Convert PDF to Word (DOCX)"
+        "Convert PDF to Word (DOCX)",
+        "Compress images online"
       ]
     }
     </script>
 
-    <!-- ── FAQ STRUCTURED DATA (Google FAQ rich snippets) ── -->
+    <!-- ── FAQ STRUCTURED DATA ── -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -89,6 +90,14 @@
         },
         {
           "@type": "Question",
+          "name": "How do I compress images online?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use DocuTool's Image Compress tool. Upload JPG, PNG, WebP, or other image formats, choose your quality level, and download your compressed image instantly."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "Is DocuTool free?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -101,11 +110,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -116,707 +121,324 @@
 
         /* ── NAV ── */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 100;
+            position: fixed; top: 0; width: 100%; z-index: 100;
             padding: 18px 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             background: rgba(255,255,255,0.92);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(0,0,0,0.06);
         }
-
         .nav-logo {
-            font-size: 22px;
-            font-weight: 800;
-            color: #1a1a2e;
-            text-decoration: none;
-            letter-spacing: -0.5px;
-            flex: 1;
+            font-size: 22px; font-weight: 800; color: #1a1a2e;
+            text-decoration: none; letter-spacing: -0.5px; flex: 1;
         }
-
         .nav-logo span { color: #4F46E5; }
-
         .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 36px;
-            list-style: none;
-            flex: 1;
-            justify-content: center;
+            display: flex; align-items: center; gap: 36px;
+            list-style: none; flex: 1; justify-content: center;
         }
-
         .nav-links a {
-            text-decoration: none;
-            color: #444;
-            font-size: 15px;
-            font-weight: 500;
-            transition: color 0.2s;
+            text-decoration: none; color: #444;
+            font-size: 15px; font-weight: 500; transition: color 0.2s;
         }
-
         .nav-links a:hover { color: #4F46E5; }
-
-        .nav-cta {
-            display: flex;
-            gap: 12px;
-            flex: 1;
-            justify-content: flex-end;
-        }
-
+        .nav-cta { display: flex; gap: 12px; flex: 1; justify-content: flex-end; }
         .btn-outline {
-            padding: 10px 22px;
-            border: 1.5px solid #4F46E5;
-            color: #4F46E5;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s;
+            padding: 10px 22px; border: 1.5px solid #4F46E5;
+            color: #4F46E5; border-radius: 8px; font-size: 14px;
+            font-weight: 600; text-decoration: none; transition: all 0.2s;
         }
-
-        .btn-outline:hover {
-            background: #4F46E5;
-            color: white;
-        }
-
+        .btn-outline:hover { background: #4F46E5; color: white; }
         .btn-primary {
-            padding: 10px 22px;
-            background: #4F46E5;
-            color: white;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s;
+            padding: 10px 22px; background: #4F46E5; color: white;
+            border-radius: 8px; font-size: 14px; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
             box-shadow: 0 4px 14px rgba(79,70,229,0.35);
         }
-
         .btn-primary:hover {
-            background: #4338CA;
-            transform: translateY(-1px);
+            background: #4338CA; transform: translateY(-1px);
             box-shadow: 0 6px 20px rgba(79,70,229,0.45);
         }
 
         /* ── HERO ── */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            min-height: 100vh; display: flex; align-items: center;
+            justify-content: center; text-align: center;
             padding: 120px 20px 80px;
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
-
         .hero::before {
-            content: '';
-            position: absolute;
-            width: 600px;
-            height: 600px;
+            content: ''; position: absolute;
+            width: 600px; height: 600px;
             background: radial-gradient(circle, rgba(79,70,229,0.3) 0%, transparent 70%);
-            top: -100px;
-            right: -100px;
-            border-radius: 50%;
+            top: -100px; right: -100px; border-radius: 50%;
         }
-
         .hero::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
+            content: ''; position: absolute;
+            width: 400px; height: 400px;
             background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%);
-            bottom: -50px;
-            left: -50px;
-            border-radius: 50%;
+            bottom: -50px; left: -50px; border-radius: 50%;
         }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 780px;
-        }
-
+        .hero-content { position: relative; z-index: 2; max-width: 780px; }
         .hero-badge {
             display: inline-block;
             background: rgba(79,70,229,0.25);
             border: 1px solid rgba(79,70,229,0.5);
-            color: #a5b4fc;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 6px 16px;
-            border-radius: 100px;
-            margin-bottom: 28px;
-            letter-spacing: 0.5px;
+            color: #a5b4fc; font-size: 13px; font-weight: 600;
+            padding: 6px 16px; border-radius: 100px;
+            margin-bottom: 28px; letter-spacing: 0.5px;
         }
-
         .hero h1 {
-            font-size: clamp(42px, 6vw, 72px);
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.1;
-            letter-spacing: -2px;
-            margin-bottom: 24px;
+            font-size: clamp(42px, 6vw, 72px); font-weight: 800;
+            color: #ffffff; line-height: 1.1;
+            letter-spacing: -2px; margin-bottom: 24px;
         }
-
         .hero h1 span {
             background: linear-gradient(90deg, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .hero p {
-            font-size: 18px;
-            color: #94a3b8;
-            line-height: 1.7;
-            max-width: 540px;
-            margin: 0 auto 40px;
-            font-weight: 400;
+            font-size: 18px; color: #94a3b8; line-height: 1.7;
+            max-width: 540px; margin: 0 auto 40px; font-weight: 400;
         }
-
-        .hero-buttons {
-            display: flex;
-            gap: 14px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
+        .hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
         .hero-btn-primary {
-            padding: 16px 36px;
-            background: #4F46E5;
-            color: white;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.2s;
+            padding: 16px 36px; background: #4F46E5; color: white;
+            border-radius: 10px; font-size: 16px; font-weight: 700;
+            text-decoration: none; transition: all 0.2s;
             box-shadow: 0 8px 30px rgba(79,70,229,0.5);
         }
-
         .hero-btn-primary:hover {
-            background: #4338CA;
-            transform: translateY(-2px);
+            background: #4338CA; transform: translateY(-2px);
             box-shadow: 0 12px 40px rgba(79,70,229,0.6);
         }
-
         .hero-btn-secondary {
-            padding: 16px 36px;
-            background: rgba(255,255,255,0.08);
-            color: white;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.15);
+            padding: 16px 36px; background: rgba(255,255,255,0.08);
+            color: white; border-radius: 10px; font-size: 16px; font-weight: 600;
+            text-decoration: none; border: 1px solid rgba(255,255,255,0.15);
             transition: all 0.2s;
         }
-
-        .hero-btn-secondary:hover {
-            background: rgba(255,255,255,0.14);
-            transform: translateY(-2px);
-        }
-
-        .hero-note {
-            margin-top: 18px;
-            color: #64748b;
-            font-size: 13px;
-        }
+        .hero-btn-secondary:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+        .hero-note { margin-top: 18px; color: #64748b; font-size: 13px; }
 
         /* ── TRUST BAR ── */
         .trust-bar {
-            background: #f8f9ff;
-            padding: 36px 60px;
+            background: #f8f9ff; padding: 36px 60px;
             border-bottom: 1px solid #e5e7eb;
         }
-
         .trust-stats {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            flex-wrap: wrap;
-            margin-bottom: 28px;
+            display: flex; justify-content: center;
+            gap: 60px; flex-wrap: wrap; margin-bottom: 28px;
         }
-
-        .trust-stat {
-            text-align: center;
-        }
-
+        .trust-stat { text-align: center; }
         .trust-stat-value {
-            font-size: 28px;
-            font-weight: 800;
-            color: #1a1a2e;
-            letter-spacing: -1px;
-            margin-bottom: 4px;
+            font-size: 28px; font-weight: 800; color: #1a1a2e;
+            letter-spacing: -1px; margin-bottom: 4px;
         }
-
         .trust-stat-value span {
             background: linear-gradient(90deg, #4F46E5, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        .trust-stat-label {
-            font-size: 13px;
-            color: #94a3b8;
-            font-weight: 500;
-        }
-
-        .trust-divider {
-            width: 1px;
-            background: #e5e7eb;
-            align-self: stretch;
-        }
-
+        .trust-stat-label { font-size: 13px; color: #94a3b8; font-weight: 500; }
+        .trust-divider { width: 1px; background: #e5e7eb; align-self: stretch; }
         .trust-social {
-            text-align: center;
-            padding-top: 24px;
-            border-top: 1px solid #e5e7eb;
+            text-align: center; padding-top: 24px; border-top: 1px solid #e5e7eb;
         }
-
-        .trust-social p {
-            font-size: 14px;
-            color: #64748b;
-            font-weight: 500;
-            margin-bottom: 14px;
-        }
-
-        .trust-pills {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
+        .trust-social p { font-size: 14px; color: #64748b; font-weight: 500; margin-bottom: 14px; }
+        .trust-pills { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
         .trust-pill {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 100px;
-            padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #374151;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            background: white; border: 1px solid #e5e7eb; border-radius: 100px;
+            padding: 6px 16px; font-size: 13px; font-weight: 600; color: #374151;
+            display: flex; align-items: center; gap: 6px;
         }
 
         /* ── FEATURES ── */
-        .features {
-            padding: 100px 60px;
-            background: #ffffff;
-        }
-
+        .features { padding: 100px 60px; background: #ffffff; }
         .section-label {
-            text-align: center;
-            font-size: 13px;
-            font-weight: 600;
-            color: #4F46E5;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 14px;
+            text-align: center; font-size: 13px; font-weight: 600;
+            color: #4F46E5; text-transform: uppercase;
+            letter-spacing: 2px; margin-bottom: 14px;
         }
-
         .section-title {
-            text-align: center;
-            font-size: clamp(30px, 4vw, 44px);
-            font-weight: 800;
-            color: #1a1a2e;
-            letter-spacing: -1.5px;
-            margin-bottom: 16px;
+            text-align: center; font-size: clamp(30px, 4vw, 44px);
+            font-weight: 800; color: #1a1a2e;
+            letter-spacing: -1.5px; margin-bottom: 16px;
         }
-
         .section-sub {
-            text-align: center;
-            font-size: 17px;
-            color: #64748b;
-            max-width: 520px;
-            margin: 0 auto 64px;
-            line-height: 1.6;
+            text-align: center; font-size: 17px; color: #64748b;
+            max-width: 520px; margin: 0 auto 64px; line-height: 1.6;
         }
-
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 28px;
-            max-width: 1100px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 28px; max-width: 1100px; margin: 0 auto;
         }
-
         .feature-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            padding: 36px 32px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
+            background: #ffffff; border: 1px solid #e5e7eb;
+            border-radius: 16px; padding: 36px 32px;
+            transition: all 0.3s; position: relative; overflow: hidden;
         }
-
         .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
             background: linear-gradient(90deg, #4F46E5, #8b5cf6);
-            opacity: 0;
-            transition: opacity 0.3s;
+            opacity: 0; transition: opacity 0.3s;
         }
-
         .feature-card:hover {
             border-color: #c7d2fe;
             box-shadow: 0 20px 60px rgba(79,70,229,0.1);
             transform: translateY(-4px);
         }
-
         .feature-card:hover::before { opacity: 1; }
-
-        .feature-icon {
-            font-size: 36px;
-            margin-bottom: 20px;
-            display: block;
-        }
-
+        .feature-icon { font-size: 36px; margin-bottom: 20px; display: block; }
         .feature-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
+            font-size: 20px; font-weight: 700; color: #1a1a2e;
+            margin-bottom: 10px; letter-spacing: -0.5px;
         }
-
-        .feature-card p {
-            font-size: 15px;
-            color: #64748b;
-            line-height: 1.65;
+        .feature-card p { font-size: 15px; color: #64748b; line-height: 1.65; }
+        .feature-new {
+            position: absolute; top: 16px; right: 16px;
+            background: linear-gradient(135deg, #4F46E5, #8b5cf6);
+            color: white; font-size: 10px; font-weight: 800;
+            padding: 3px 10px; border-radius: 100px;
+            letter-spacing: 0.5px; text-transform: uppercase;
         }
 
         /* ── HOW IT WORKS ── */
-        .how-it-works {
-            background: #f8f9ff;
-            padding: 100px 60px;
-        }
-
+        .how-it-works { background: #f8f9ff; padding: 100px 60px; }
         .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 40px;
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px; max-width: 900px; margin: 0 auto; text-align: center;
         }
-
         .step-number {
-            width: 52px;
-            height: 52px;
+            width: 52px; height: 52px;
             background: linear-gradient(135deg, #4F46E5, #8b5cf6);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 18px;
-            margin: 0 auto 20px;
+            color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 18px; margin: 0 auto 20px;
             box-shadow: 0 8px 24px rgba(79,70,229,0.35);
         }
-
-        .step h4 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 8px;
-        }
-
-        .step p {
-            font-size: 15px;
-            color: #64748b;
-            line-height: 1.6;
-        }
+        .step h4 { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+        .step p { font-size: 15px; color: #64748b; line-height: 1.6; }
 
         /* ── PRICING ── */
-        .pricing {
-            padding: 100px 60px;
-            background: #ffffff;
-        }
-
+        .pricing { padding: 100px 60px; background: #ffffff; }
         .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 28px;
-            max-width: 780px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px; max-width: 780px; margin: 0 auto;
         }
-
         .pricing-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 20px;
-            padding: 44px 36px;
-            text-align: center;
-            transition: all 0.3s;
+            border: 1px solid #e5e7eb; border-radius: 20px;
+            padding: 44px 36px; text-align: center; transition: all 0.3s;
         }
-
         .pricing-card.popular {
             border-color: #4F46E5;
             background: linear-gradient(135deg, #4F46E5 0%, #7c3aed 100%);
-            color: white;
-            box-shadow: 0 24px 60px rgba(79,70,229,0.35);
+            color: white; box-shadow: 0 24px 60px rgba(79,70,229,0.35);
             transform: scale(1.03);
         }
-
         .pricing-card:hover:not(.popular) {
-            box-shadow: 0 16px 48px rgba(0,0,0,0.08);
-            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.08); transform: translateY(-4px);
         }
-
         .popular-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 14px;
-            border-radius: 100px;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            display: inline-block; background: rgba(255,255,255,0.2);
+            color: white; font-size: 12px; font-weight: 700;
+            padding: 4px 14px; border-radius: 100px;
+            margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;
         }
-
-        .pricing-name {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
+        .pricing-name { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
         .pricing-card:not(.popular) .pricing-name { color: #1a1a2e; }
-
-        .pricing-price {
-            font-size: 52px;
-            font-weight: 800;
-            letter-spacing: -2px;
-        }
-
+        .pricing-price { font-size: 52px; font-weight: 800; letter-spacing: -2px; }
         .pricing-card:not(.popular) .pricing-price { color: #1a1a2e; }
-
-        .pricing-price sup {
-            font-size: 22px;
-            font-weight: 600;
-            vertical-align: super;
-        }
-
-        .pricing-price span {
-            font-size: 16px;
-            font-weight: 400;
-            opacity: 0.7;
-        }
-
-        .pricing-desc {
-            font-size: 14px;
-            opacity: 0.7;
-            margin: 10px 0 28px;
-        }
-
-        .pricing-features {
-            list-style: none;
-            text-align: left;
-            margin-bottom: 32px;
-        }
-
+        .pricing-price sup { font-size: 22px; font-weight: 600; vertical-align: super; }
+        .pricing-price span { font-size: 16px; font-weight: 400; opacity: 0.7; }
+        .pricing-desc { font-size: 14px; opacity: 0.7; margin: 10px 0 28px; }
+        .pricing-features { list-style: none; text-align: left; margin-bottom: 32px; }
         .pricing-features li {
-            padding: 9px 0;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            opacity: 0.9;
+            padding: 9px 0; font-size: 15px;
+            display: flex; align-items: center; gap: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.05); opacity: 0.9;
         }
-
         .pricing-card.popular .pricing-features li {
-            border-bottom-color: rgba(255,255,255,0.1);
-            color: white;
+            border-bottom-color: rgba(255,255,255,0.1); color: white;
         }
-
         .pricing-card:not(.popular) .pricing-features li { color: #374151; }
-
         .pricing-features li::before {
-            content: '✓';
-            color: #4F46E5;
-            font-weight: 800;
-            font-size: 14px;
-            flex-shrink: 0;
+            content: '✓'; color: #4F46E5;
+            font-weight: 800; font-size: 14px; flex-shrink: 0;
         }
-
         .pricing-card.popular .pricing-features li::before { color: #a5f3fc; }
-
         .pricing-btn {
-            display: block;
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.2s;
-            text-align: center;
+            display: block; padding: 14px; border-radius: 10px;
+            font-size: 15px; font-weight: 700; text-decoration: none;
+            transition: all 0.2s; text-align: center;
         }
-
-        .pricing-btn-white {
-            background: white;
-            color: #4F46E5;
-        }
-
-        .pricing-btn-white:hover {
-            background: #f0f0ff;
-            transform: translateY(-1px);
-        }
-
+        .pricing-btn-white { background: white; color: #4F46E5; }
+        .pricing-btn-white:hover { background: #f0f0ff; transform: translateY(-1px); }
         .pricing-btn-dark {
-            background: #4F46E5;
-            color: white;
+            background: #4F46E5; color: white;
             box-shadow: 0 6px 20px rgba(79,70,229,0.3);
         }
+        .pricing-btn-dark:hover { background: #4338CA; transform: translateY(-1px); }
+        .trial-note { text-align: center; margin-top: 24px; font-size: 14px; color: #9ca3af; }
 
-        .pricing-btn-dark:hover {
-            background: #4338CA;
-            transform: translateY(-1px);
-        }
-
-        .trial-note {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 14px;
-            color: #9ca3af;
-        }
-
-        /* ── FAQ SECTION ── */
-        .faq {
-            background: #f8f9ff;
-            padding: 100px 60px;
-        }
-
+        /* ── FAQ ── */
+        .faq { background: #f8f9ff; padding: 100px 60px; }
         .faq-list {
-            max-width: 720px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+            max-width: 720px; margin: 0 auto;
+            display: flex; flex-direction: column; gap: 14px;
         }
-
         .faq-item {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            overflow: hidden;
+            background: white; border: 1px solid #e5e7eb;
+            border-radius: 12px; overflow: hidden;
         }
-
         .faq-question {
-            width: 100%;
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 15px;
-            font-weight: 600;
-            color: #1a1a2e;
-            background: none;
-            border: none;
-            cursor: pointer;
-            text-align: left;
-            transition: background 0.2s;
-            gap: 12px;
+            width: 100%; padding: 20px 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 15px; font-weight: 600; color: #1a1a2e;
+            background: none; border: none; cursor: pointer; text-align: left;
+            transition: background 0.2s; gap: 12px;
         }
-
         .faq-question:hover { background: #f8f9ff; }
-
         .faq-icon {
-            font-size: 18px;
-            color: #4F46E5;
-            font-weight: 800;
-            flex-shrink: 0;
-            transition: transform 0.2s;
+            font-size: 18px; color: #4F46E5; font-weight: 800;
+            flex-shrink: 0; transition: transform 0.2s;
         }
-
         .faq-item.open .faq-icon { transform: rotate(45deg); }
-
         .faq-answer {
-            display: none;
-            padding: 0 24px 20px;
-            font-size: 14px;
-            color: #64748b;
-            line-height: 1.7;
+            display: none; padding: 0 24px 20px;
+            font-size: 14px; color: #64748b; line-height: 1.7;
         }
-
         .faq-item.open .faq-answer { display: block; }
 
         /* ── CTA BANNER ── */
         .cta-banner {
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
-            padding: 80px 60px;
-            text-align: center;
+            padding: 80px 60px; text-align: center;
         }
-
         .cta-banner h2 {
-            font-size: clamp(28px, 4vw, 44px);
-            font-weight: 800;
-            color: white;
-            letter-spacing: -1.5px;
-            margin-bottom: 16px;
+            font-size: clamp(28px, 4vw, 44px); font-weight: 800;
+            color: white; letter-spacing: -1.5px; margin-bottom: 16px;
         }
-
-        .cta-banner p {
-            color: #94a3b8;
-            font-size: 17px;
-            margin-bottom: 36px;
-        }
+        .cta-banner p { color: #94a3b8; font-size: 17px; margin-bottom: 36px; }
 
         /* ── FOOTER ── */
         footer {
-            background: #0f0c29;
-            padding: 40px 60px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            text-align: center;
+            background: #0f0c29; padding: 40px 60px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 20px; text-align: center;
             border-top: 1px solid rgba(255,255,255,0.06);
         }
-
-        .footer-logo {
-            font-size: 20px;
-            font-weight: 800;
-            color: white;
-            text-decoration: none;
-        }
-
+        .footer-logo { font-size: 20px; font-weight: 800; color: white; text-decoration: none; }
         .footer-logo span { color: #818cf8; }
-
-        .footer-links {
-            display: flex;
-            gap: 28px;
-            list-style: none;
-        }
-
-        .footer-links a {
-            color: #64748b;
-            font-size: 14px;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
+        .footer-links { display: flex; gap: 28px; list-style: none; }
+        .footer-links a { color: #64748b; font-size: 14px; text-decoration: none; transition: color 0.2s; }
         .footer-links a:hover { color: #94a3b8; }
-
-        .footer-copy {
-            color: #374151;
-            font-size: 13px;
-        }
+        .footer-copy { color: #374151; font-size: 13px; }
 
         /* ── MOBILE ── */
         @media (max-width: 768px) {
@@ -847,6 +469,7 @@
 
             .features { padding: 60px 20px; }
             .section-sub { font-size: 15px; margin-bottom: 40px; }
+            .features-grid { grid-template-columns: 1fr; }
             .feature-card { padding: 28px 22px; }
 
             .how-it-works { padding: 60px 20px; }
@@ -892,7 +515,7 @@
     <div class="hero-content">
         <div class="hero-badge">✦ Start free for 3 days — no commitment</div>
         <h1>Your PDFs.<br><span>Handled instantly.</span></h1>
-        <p>Merge, convert, and compress PDFs in seconds. Clean, fast, and professional — built for people who work with documents every day.</p>
+        <p>Merge, convert, and compress PDFs — plus compress images. Clean, fast, and professional, built for people who work with documents every day.</p>
         <div class="hero-buttons">
             <a href="/register" class="hero-btn-primary">Start for free →</a>
             <a href="#features" class="hero-btn-secondary">See what it does</a>
@@ -920,7 +543,7 @@
         </div>
         <div class="trust-divider"></div>
         <div class="trust-stat">
-            <div class="trust-stat-value"><span>3</span></div>
+            <div class="trust-stat-value"><span>4</span></div>
             <div class="trust-stat-label">Powerful tools</div>
         </div>
     </div>
@@ -939,8 +562,8 @@
 <!-- FEATURES -->
 <section class="features" id="features">
     <p class="section-label">What DocuTool does</p>
-    <h2 class="section-title">Everything your PDFs need</h2>
-    <p class="section-sub">Three powerful tools, one clean dashboard. No installs, no bloatware, no learning curve.</p>
+    <h2 class="section-title">Everything your files need</h2>
+    <p class="section-sub">Four powerful tools, one clean dashboard. No installs, no bloatware, no learning curve.</p>
     <div class="features-grid">
         <div class="feature-card">
             <span class="feature-icon">📄</span>
@@ -956,6 +579,12 @@
             <span class="feature-icon">🗜️</span>
             <h3>Compress PDF Files</h3>
             <p>Reduce PDF file sizes dramatically without sacrificing readability. Perfect for email attachments and cloud storage.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-new">New</span>
+            <span class="feature-icon">🖼️</span>
+            <h3>Compress Images Online</h3>
+            <p>Reduce JPG, PNG, WebP and more without visible quality loss. Adjust compression level and batch compress multiple images at once.</p>
         </div>
     </div>
 </section>
@@ -973,8 +602,8 @@
         </div>
         <div class="step">
             <div class="step-number">2</div>
-            <h4>Upload your PDF</h4>
-            <p>Select one or more files from your device. We accept any standard PDF.</p>
+            <h4>Upload your file</h4>
+            <p>Select one or more files from your device. PDFs and images both supported.</p>
         </div>
         <div class="step">
             <div class="step-number">3</div>
@@ -993,11 +622,12 @@
         <div class="pricing-card">
             <div class="pricing-name">Basic</div>
             <div class="pricing-price"><sup>$</sup>5<span>/mo</span></div>
-            <p class="pricing-desc">Everything you need for everyday PDF work.</p>
+            <p class="pricing-desc">Everything you need for everyday file work.</p>
             <ul class="pricing-features">
                 <li>PDF Merge</li>
                 <li>PDF to Word</li>
                 <li>PDF Compress</li>
+                <li>Image Compress</li>
                 <li>Up to 50MB per file</li>
                 <li>3-day free trial</li>
             </ul>
@@ -1050,6 +680,13 @@
         </div>
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
+                How do I compress images online?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">Use DocuTool's Image Compress tool. Upload your JPG, PNG, WebP or other image, choose your quality level with the slider, and download the compressed file instantly. Upload multiple images to get a ZIP.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
                 Is DocuTool free to use?
                 <span class="faq-icon">+</span>
             </button>
@@ -1074,7 +711,7 @@
 
 <!-- CTA BANNER -->
 <section class="cta-banner">
-    <h2>Ready to take control of your PDFs?</h2>
+    <h2>Ready to take control of your files?</h2>
     <p>Join thousands of professionals who use DocuTool every day.</p>
     <a href="/register" class="hero-btn-primary">Get started free →</a>
 </section>
@@ -1094,8 +731,7 @@
 
 <script>
     function toggleFaq(btn) {
-        const item = btn.parentElement;
-        item.classList.toggle('open');
+        btn.parentElement.classList.toggle('open');
     }
 </script>
 

@@ -34,6 +34,8 @@ STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
 
 BASE_URL = 'https://www.docutool.org'
 
+ALLOWED_IMAGE_EXTENSIONS = {'jpg', 'jpeg', 'png', 'webp', 'bmp', 'tiff'}
+
 
 # ── MODELS ────────────────────────────────────────────────────────────────────
 
@@ -214,11 +216,7 @@ def stripe_webhook():
     sig_header = request.headers.get('Stripe-Signature')
 
     try:
-        event = stripe.Webhook.construct_event(
-            payload,
-            sig_header,
-            STRIPE_WEBHOOK_SECRET
-        )
+        event = stripe.Webhook.construct_event(payload, sig_header, STRIPE_WEBHOOK_SECRET)
     except ValueError:
         return 'Invalid payload', 400
     except stripe.error.SignatureVerificationError:
@@ -339,7 +337,7 @@ def cancel_subscription():
     return redirect(url_for('dashboard'))
 
 
-# ── TOOLS ─────────────────────────────────────────────────────────────────────
+# ── PDF TOOLS ─────────────────────────────────────────────────────────────────
 
 @app.route('/merge', methods=['GET', 'POST'])
 @login_required
@@ -374,12 +372,8 @@ def merge():
                     zf.writestr('merged.pdf', merged_pdf.read())
                 zip_buffer.seek(0)
 
-                return send_file(
-                    zip_buffer,
-                    mimetype='application/zip',
-                    as_attachment=True,
-                    download_name='merged.zip'
-                )
+                return send_file(zip_buffer, mimetype='application/zip',
+                                 as_attachment=True, download_name='merged.zip')
             else:
                 writer = PdfWriter()
                 for f in files:
@@ -389,12 +383,8 @@ def merge():
                 writer.write(output)
                 output.seek(0)
 
-                return send_file(
-                    output,
-                    mimetype='application/pdf',
-                    as_attachment=True,
-                    download_name='merged.pdf'
-                )
+                return send_file(output, mimetype='application/pdf',
+                                 as_attachment=True, download_name='merged.pdf')
 
         except Exception as e:
             flash(f'Error merging PDFs: {str(e)}')
@@ -468,12 +458,8 @@ def convert():
                         os.unlink(tmp_docx_path)
 
                 zip_buffer.seek(0)
-                return send_file(
-                    zip_buffer,
-                    mimetype='application/zip',
-                    as_attachment=True,
-                    download_name='converted.zip'
-                )
+                return send_file(zip_buffer, mimetype='application/zip',
+                                 as_attachment=True, download_name='converted.zip')
 
         except Exception as e:
             flash(f'Error converting PDF: {str(e)}')
@@ -507,10 +493,8 @@ def compress():
 
                 for page in reader.pages:
                     writer.add_page(page)
-
                 for page in writer.pages:
                     page.compress_content_streams()
-
                 if reader.metadata:
                     writer.add_metadata(reader.metadata)
 
@@ -519,12 +503,9 @@ def compress():
                 output.seek(0)
 
                 original_name = os.path.splitext(f.filename)[0]
-                return send_file(
-                    output,
-                    mimetype='application/pdf',
-                    as_attachment=True,
-                    download_name=f'{original_name}_compressed.pdf'
-                )
+                return send_file(output, mimetype='application/pdf',
+                                 as_attachment=True,
+                                 download_name=f'{original_name}_compressed.pdf')
 
             else:
                 zip_buffer = io.BytesIO()
@@ -535,10 +516,8 @@ def compress():
 
                         for page in reader.pages:
                             writer.add_page(page)
-
                         for page in writer.pages:
                             page.compress_content_streams()
-
                         if reader.metadata:
                             writer.add_metadata(reader.metadata)
 
@@ -550,18 +529,102 @@ def compress():
                         zf.writestr(f'{original_name}_compressed.pdf', compressed.read())
 
                 zip_buffer.seek(0)
-                return send_file(
-                    zip_buffer,
-                    mimetype='application/zip',
-                    as_attachment=True,
-                    download_name='compressed.zip'
-                )
+                return send_file(zip_buffer, mimetype='application/zip',
+                                 as_attachment=True, download_name='compressed.zip')
 
         except Exception as e:
             flash(f'Error compressing PDF: {str(e)}')
             return redirect(url_for('compress'))
 
     return render_template('compress.html')
+
+
+# ── IMAGE COMPRESS ────────────────────────────────────────────────────────────
+
+@app.route('/compress-image', methods=['GET', 'POST'])
+@login_required
+def compress_image():
+    if request.method == 'POST':
+        files = request.files.getlist('images')
+        quality = int(request.form.get('quality', 75))
+        quality = max(10, min(95, quality))
+
+        if not files or all(f.filename == '' for f in files):
+            flash('Please upload at least one image.')
+            return redirect(url_for('compress_image'))
+
+        for f in files:
+            ext = f.filename.rsplit('.', 1)[-1].lower()
+            if ext not in ALLOWED_IMAGE_EXTENSIONS:
+                flash(f'Unsupported file type: {f.filename}. Allowed: JPG, PNG, WebP, BMP, TIFF.')
+                return redirect(url_for('compress_image'))
+
+        try:
+            from PIL import Image
+
+            if len(files) == 1:
+                f = files[0]
+                ext = f.filename.rsplit('.', 1)[-1].lower()
+                img = Image.open(f)
+
+                # Convert palette/RGBA to RGB for JPEG output
+                output_ext = 'jpeg' if ext in ('jpg', 'jpeg') else ext
+                if output_ext == 'jpeg' and img.mode in ('RGBA', 'P'):
+                    img = img.convert('RGB')
+
+                output = io.BytesIO()
+                save_kwargs = {'format': output_ext.upper()}
+                if output_ext in ('jpeg', 'webp'):
+                    save_kwargs['quality'] = quality
+                    save_kwargs['optimize'] = True
+                elif output_ext == 'png':
+                    save_kwargs['optimize'] = True
+
+                img.save(output, **save_kwargs)
+                output.seek(0)
+
+                original_name = os.path.splitext(f.filename)[0]
+                dl_ext = 'jpg' if output_ext == 'jpeg' else output_ext
+                mimetype = f'image/{output_ext}'
+                return send_file(output, mimetype=mimetype,
+                                 as_attachment=True,
+                                 download_name=f'{original_name}_compressed.{dl_ext}')
+
+            else:
+                zip_buffer = io.BytesIO()
+                with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zf:
+                    for f in files:
+                        ext = f.filename.rsplit('.', 1)[-1].lower()
+                        img = Image.open(f)
+
+                        output_ext = 'jpeg' if ext in ('jpg', 'jpeg') else ext
+                        if output_ext == 'jpeg' and img.mode in ('RGBA', 'P'):
+                            img = img.convert('RGB')
+
+                        compressed = io.BytesIO()
+                        save_kwargs = {'format': output_ext.upper()}
+                        if output_ext in ('jpeg', 'webp'):
+                            save_kwargs['quality'] = quality
+                            save_kwargs['optimize'] = True
+                        elif output_ext == 'png':
+                            save_kwargs['optimize'] = True
+
+                        img.save(compressed, **save_kwargs)
+                        compressed.seek(0)
+
+                        original_name = os.path.splitext(f.filename)[0]
+                        dl_ext = 'jpg' if output_ext == 'jpeg' else output_ext
+                        zf.writestr(f'{original_name}_compressed.{dl_ext}', compressed.read())
+
+                zip_buffer.seek(0)
+                return send_file(zip_buffer, mimetype='application/zip',
+                                 as_attachment=True, download_name='compressed_images.zip')
+
+        except Exception as e:
+            flash(f'Error compressing image: {str(e)}')
+            return redirect(url_for('compress_image'))
+
+    return render_template('compress_image.html')
 
 
 # ── INIT ──────────────────────────────────────────────────────────────────────

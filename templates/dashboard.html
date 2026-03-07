@@ -9,77 +9,48 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #f8f9ff; min-height: 100vh; }
 
-        /* ── NAV ── */
         nav {
             padding: 16px 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
-            position: sticky;
-            top: 0;
-            z-index: 200;
+            display: flex; align-items: center; justify-content: space-between;
+            background: white; border-bottom: 1px solid #e5e7eb;
+            position: sticky; top: 0; z-index: 200;
         }
         .nav-logo { font-size: 22px; font-weight: 800; color: #1a1a2e; text-decoration: none; }
         .nav-logo span { color: #4F46E5; }
         .nav-right { display: flex; align-items: center; gap: 16px; }
         .plan-badge {
-            background: #ede9fe;
-            color: #4F46E5;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 100px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: #ede9fe; color: #4F46E5;
+            font-size: 12px; font-weight: 700;
+            padding: 4px 12px; border-radius: 100px;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
 
-        /* ── PROFILE DROPDOWN ── */
         .profile-wrapper { position: relative; }
         .profile-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #f1f5f9;
-            border: 1.5px solid #e5e7eb;
-            border-radius: 100px;
-            padding: 6px 16px 6px 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
+            display: flex; align-items: center; gap: 10px;
+            background: #f1f5f9; border: 1.5px solid #e5e7eb;
+            border-radius: 100px; padding: 6px 16px 6px 8px;
+            cursor: pointer; transition: all 0.2s; user-select: none;
         }
         .profile-btn:hover { border-color: #4F46E5; background: #ede9fe; }
         .avatar {
-            width: 32px; height: 32px;
-            border-radius: 50%;
+            width: 32px; height: 32px; border-radius: 50%;
             background: linear-gradient(135deg, #4F46E5, #8b5cf6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 13px;
-            font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 13px; font-weight: 700;
         }
         .profile-name { font-size: 13px; font-weight: 600; color: #1a1a2e; }
         .chevron { font-size: 10px; color: #64748b; transition: transform 0.2s; }
         .profile-wrapper.open .chevron { transform: rotate(180deg); }
 
         .dropdown {
-            display: none;
-            position: absolute;
-            top: calc(100% + 10px);
-            right: 0;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-            width: 280px;
-            z-index: 300;
-            overflow: hidden;
+            display: none; position: absolute;
+            top: calc(100% + 10px); right: 0;
+            background: white; border: 1px solid #e5e7eb;
+            border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            width: 280px; z-index: 300; overflow: hidden;
         }
         .profile-wrapper.open .dropdown { display: block; }
-
         .dropdown-header {
             padding: 20px;
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
@@ -87,74 +58,45 @@
         .dropdown-header .d-name { font-size: 15px; font-weight: 700; color: white; margin-bottom: 2px; }
         .dropdown-header .d-email { font-size: 12px; color: #94a3b8; margin-bottom: 10px; }
         .dropdown-header .d-badge {
-            background: rgba(79,70,229,0.3);
-            color: #818cf8;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 100px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: inline-block;
+            background: rgba(79,70,229,0.3); color: #818cf8;
+            font-size: 11px; font-weight: 700;
+            padding: 3px 10px; border-radius: 100px;
+            text-transform: uppercase; letter-spacing: 0.5px; display: inline-block;
         }
-
         .dropdown-section { padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
         .dropdown-section:last-child { border-bottom: none; }
-
         .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 20px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #374151;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background 0.15s;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 20px; font-size: 14px; font-weight: 500;
+            color: #374151; text-decoration: none; cursor: pointer;
+            transition: background 0.15s; border: none;
+            background: none; width: 100%; text-align: left;
         }
         .dropdown-item:hover { background: #f8f9ff; color: #4F46E5; }
         .dropdown-item .di-icon { font-size: 16px; width: 20px; text-align: center; }
         .dropdown-item.danger { color: #ef4444; }
         .dropdown-item.danger:hover { background: #fef2f2; color: #dc2626; }
 
-        .sub-status {
-            padding: 10px 20px;
-            background: #f8f9ff;
-        }
+        .sub-status { padding: 10px 20px; background: #f8f9ff; }
         .sub-status .sub-label { font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
         .sub-status .sub-value { font-size: 13px; font-weight: 600; color: #1a1a2e; }
         .sub-status .sub-value .active { color: #10b981; }
 
-        /* ── FLASH MESSAGES ── */
         .flash-messages { padding: 0 60px; margin-top: 16px; }
         .flash-msg {
-            background: #ede9fe;
-            color: #4F46E5;
-            border: 1px solid #c7d2fe;
-            border-radius: 10px;
-            padding: 12px 18px;
-            font-size: 14px;
-            font-weight: 500;
+            background: #ede9fe; color: #4F46E5;
+            border: 1px solid #c7d2fe; border-radius: 10px;
+            padding: 12px 18px; font-size: 14px; font-weight: 500;
         }
 
-        /* ── HERO BAR ── */
         .hero-bar {
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
-            padding: 52px 60px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 52px 60px; text-align: center;
+            position: relative; overflow: hidden;
         }
         .hero-bar::before {
-            content: '';
-            position: absolute;
-            top: -80px; right: -80px;
-            width: 300px; height: 300px;
+            content: ''; position: absolute;
+            top: -80px; right: -80px; width: 300px; height: 300px;
             background: radial-gradient(circle, rgba(79,70,229,0.3) 0%, transparent 70%);
             pointer-events: none;
         }
@@ -162,76 +104,53 @@
         .hero-bar p { color: #94a3b8; font-size: 15px; }
         .hero-bar p span { color: #818cf8; font-weight: 600; }
 
-        /* ── STATS ROW ── */
         .stats-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 36px 60px 0;
-            max-width: 1100px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 20px; padding: 36px 60px 0;
+            max-width: 1100px; margin: 0 auto;
         }
         .stat-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 22px 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
+            background: white; border: 1px solid #e5e7eb;
+            border-radius: 14px; padding: 22px 24px;
+            display: flex; align-items: center; gap: 16px;
         }
         .stat-icon {
-            width: 46px; height: 46px;
-            border-radius: 12px;
-            background: #ede9fe;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
+            width: 46px; height: 46px; border-radius: 12px;
+            background: #ede9fe; display: flex; align-items: center;
+            justify-content: center; font-size: 20px; flex-shrink: 0;
         }
         .stat-label { font-size: 12px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
         .stat-value { font-size: 22px; font-weight: 800; color: #1a1a2e; }
 
-        /* ── TOOLS SECTION ── */
         .tools {
             padding: 36px 60px 60px;
-            max-width: 1100px;
-            margin: 0 auto;
+            max-width: 1100px; margin: 0 auto;
         }
         .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             margin-bottom: 20px;
         }
         .section-header h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; letter-spacing: -0.5px; }
         .section-header span { font-size: 13px; color: #94a3b8; }
 
+        /* ── 2×2 GRID ── */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
+
         .tool-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            padding: 28px 24px;
-            text-decoration: none;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-            display: block;
+            background: white; border: 1px solid #e5e7eb;
+            border-radius: 16px; padding: 28px 24px;
+            text-decoration: none; transition: all 0.3s;
+            position: relative; overflow: hidden; display: block;
         }
         .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
             background: linear-gradient(90deg, #4F46E5, #8b5cf6);
-            opacity: 0;
-            transition: opacity 0.3s;
+            opacity: 0; transition: opacity 0.3s;
         }
         .tool-card:hover { border-color: #c7d2fe; box-shadow: 0 16px 48px rgba(79,70,229,0.12); transform: translateY(-4px); }
         .tool-card:hover::before { opacity: 1; }
@@ -240,132 +159,65 @@
         .tool-card p { font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 18px; }
         .tool-link { font-size: 13px; font-weight: 700; color: #4F46E5; }
 
-        /* ── CANCEL MODAL ── */
+        /* NEW badge */
+        .tool-new-badge {
+            position: absolute; top: 16px; right: 16px;
+            background: linear-gradient(135deg, #4F46E5, #8b5cf6);
+            color: white; font-size: 10px; font-weight: 800;
+            padding: 3px 10px; border-radius: 100px;
+            letter-spacing: 0.5px; text-transform: uppercase;
+        }
+
         .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 500;
-            align-items: center;
-            justify-content: center;
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 500;
+            align-items: center; justify-content: center;
         }
         .modal-overlay.open { display: flex; }
         .modal {
-            background: white;
-            border-radius: 20px;
-            padding: 36px;
-            max-width: 420px;
-            width: 90%;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
-            text-align: center;
+            background: white; border-radius: 20px;
+            padding: 36px; max-width: 420px; width: 90%;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2); text-align: center;
         }
         .modal .modal-icon { font-size: 48px; margin-bottom: 16px; }
         .modal h3 { font-size: 20px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; }
         .modal p { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 28px; }
         .modal-buttons { display: flex; gap: 12px; }
         .btn-keep {
-            flex: 1; padding: 12px;
-            background: #4F46E5; color: white;
-            border: none; border-radius: 10px;
-            font-size: 14px; font-weight: 700;
+            flex: 1; padding: 12px; background: #4F46E5; color: white;
+            border: none; border-radius: 10px; font-size: 14px; font-weight: 700;
             cursor: pointer; transition: background 0.2s;
         }
         .btn-keep:hover { background: #4338ca; }
         .btn-cancel-confirm {
-            flex: 1; padding: 12px;
-            background: white; color: #ef4444;
+            flex: 1; padding: 12px; background: white; color: #ef4444;
             border: 1.5px solid #ef4444; border-radius: 10px;
-            font-size: 14px; font-weight: 700;
-            cursor: pointer; transition: all 0.2s;
+            font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;
         }
         .btn-cancel-confirm:hover { background: #fef2f2; }
 
-        /* ── MOBILE ── */
         @media (max-width: 768px) {
-            /* Nav */
-            nav {
-                padding: 12px 16px;
-            }
-            .nav-logo {
-                font-size: 19px;
-            }
-            .plan-badge {
-                font-size: 11px;
-                padding: 3px 10px;
-            }
-            .profile-name {
-                display: none;
-            }
-            .profile-btn {
-                padding: 6px 10px 6px 6px;
-            }
-
-            /* Flash */
-            .flash-messages {
-                padding: 0 16px;
-                margin-top: 12px;
-            }
-
-            /* Hero bar */
-            .hero-bar {
-                padding: 36px 20px;
-            }
-            .hero-bar h1 {
-                font-size: 24px;
-                letter-spacing: -0.5px;
-            }
-            .hero-bar p {
-                font-size: 13px;
-            }
-
-            /* Stats row */
-            .stats-row {
-                grid-template-columns: 1fr;
-                gap: 12px;
-                padding: 20px 16px 0;
-            }
-            .stat-card {
-                padding: 16px 18px;
-            }
-            .stat-value {
-                font-size: 18px;
-            }
-
-            /* Tools */
-            .tools {
-                padding: 20px 16px 40px;
-            }
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-            }
-            .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 14px;
-            }
-            .tool-card {
-                padding: 22px 18px;
-            }
-            .tool-icon {
-                font-size: 30px;
-                margin-bottom: 10px;
-            }
-            .tool-card h3 {
-                font-size: 16px;
-            }
-
-            /* Modal */
-            .modal {
-                padding: 28px 20px;
-            }
-            .modal h3 {
-                font-size: 18px;
-            }
-            .modal-buttons {
-                flex-direction: column;
-            }
+            nav { padding: 12px 16px; }
+            .nav-logo { font-size: 19px; }
+            .plan-badge { font-size: 11px; padding: 3px 10px; }
+            .profile-name { display: none; }
+            .profile-btn { padding: 6px 10px 6px 6px; }
+            .flash-messages { padding: 0 16px; margin-top: 12px; }
+            .hero-bar { padding: 36px 20px; }
+            .hero-bar h1 { font-size: 24px; }
+            .hero-bar p { font-size: 13px; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 20px 16px 0; }
+            .stat-card { padding: 16px 18px; }
+            .stat-value { font-size: 18px; }
+            .tools { padding: 20px 16px 40px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .tools-grid { grid-template-columns: 1fr; gap: 14px; }
+            .tool-card { padding: 22px 18px; }
+            .tool-icon { font-size: 30px; margin-bottom: 10px; }
+            .tool-card h3 { font-size: 16px; }
+            .modal { padding: 28px 20px; }
+            .modal h3 { font-size: 18px; }
+            .modal-buttons { flex-direction: column; }
         }
     </style>
 </head>
@@ -455,7 +307,14 @@
     <div class="stat-card">
         <div class="stat-icon">🗜️</div>
         <div>
-            <div class="stat-label">Files Compressed</div>
+            <div class="stat-label">PDFs Compressed</div>
+            <div class="stat-value">0</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🖼️</div>
+        <div>
+            <div class="stat-label">Images Compressed</div>
             <div class="stat-value">0</div>
         </div>
     </div>
@@ -482,13 +341,19 @@
         <a href="/compress" class="tool-card">
             <span class="tool-icon">🗜️</span>
             <h3>Compress PDF</h3>
-            <p>Reduce file sizes without losing quality. Perfect for email and cloud storage.</p>
+            <p>Reduce PDF file sizes without losing quality. Perfect for email and cloud storage.</p>
+            <div class="tool-link">Open tool →</div>
+        </a>
+        <a href="/compress-image" class="tool-card">
+            <span class="tool-new-badge">New</span>
+            <span class="tool-icon">🖼️</span>
+            <h3>Compress Images</h3>
+            <p>Shrink JPG, PNG, WebP and more without visible quality loss. Batch compress in one click.</p>
             <div class="tool-link">Open tool →</div>
         </a>
     </div>
 </div>
 
-<!-- Cancel Modal -->
 <div class="modal-overlay" id="cancelModal">
     <div class="modal">
         <div class="modal-icon">😢</div>
