@@ -235,33 +235,80 @@
         /* ── TRUST BAR ── */
         .trust-bar {
             background: #f8f9ff;
-            padding: 28px 60px;
-            text-align: center;
+            padding: 36px 60px;
             border-bottom: 1px solid #e5e7eb;
         }
 
-        .trust-bar p {
-            font-size: 13px;
-            color: #9ca3af;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-        }
-
-        .trust-logos {
+        .trust-stats {
             display: flex;
             justify-content: center;
-            gap: 48px;
+            gap: 60px;
             flex-wrap: wrap;
-            align-items: center;
+            margin-bottom: 28px;
         }
 
-        .trust-logos span {
-            font-size: 18px;
-            font-weight: 700;
-            color: #cbd5e1;
-            letter-spacing: -0.5px;
+        .trust-stat {
+            text-align: center;
+        }
+
+        .trust-stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a2e;
+            letter-spacing: -1px;
+            margin-bottom: 4px;
+        }
+
+        .trust-stat-value span {
+            background: linear-gradient(90deg, #4F46E5, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .trust-stat-label {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .trust-divider {
+            width: 1px;
+            background: #e5e7eb;
+            align-self: stretch;
+        }
+
+        .trust-social {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .trust-social p {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 14px;
+        }
+
+        .trust-pills {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .trust-pill {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         /* ── FEATURES ── */
@@ -618,134 +665,49 @@
 
         /* ── MOBILE ── */
         @media (max-width: 768px) {
-            /* Nav */
-            nav {
-                padding: 14px 20px;
-            }
-            .nav-logo {
-                font-size: 19px;
-                flex: none;
-            }
-            .nav-links {
-                display: none;
-            }
-            .nav-cta {
-                flex: none;
-                gap: 8px;
-            }
-            .btn-outline {
-                padding: 8px 14px;
-                font-size: 13px;
-            }
-            .btn-primary {
-                padding: 8px 14px;
-                font-size: 13px;
-            }
+            nav { padding: 14px 20px; }
+            .nav-logo { font-size: 19px; flex: none; }
+            .nav-links { display: none; }
+            .nav-cta { flex: none; gap: 8px; }
+            .btn-outline { padding: 8px 14px; font-size: 13px; }
+            .btn-primary { padding: 8px 14px; font-size: 13px; }
 
-            /* Hero */
-            .hero {
-                padding: 100px 20px 60px;
-                min-height: auto;
+            .hero { padding: 100px 20px 60px; min-height: auto; }
+            .hero-badge { font-size: 11px; padding: 5px 12px; margin-bottom: 20px; }
+            .hero h1 { font-size: 36px; letter-spacing: -1px; margin-bottom: 16px; }
+            .hero p { font-size: 15px; margin-bottom: 28px; }
+            .hero-buttons { flex-direction: column; align-items: center; gap: 10px; }
+            .hero-btn-primary, .hero-btn-secondary {
+                width: 100%; max-width: 320px;
+                padding: 14px 24px; font-size: 15px; text-align: center;
             }
-            .hero-badge {
-                font-size: 11px;
-                padding: 5px 12px;
-                margin-bottom: 20px;
-            }
-            .hero h1 {
-                font-size: 36px;
-                letter-spacing: -1px;
-                margin-bottom: 16px;
-            }
-            .hero p {
-                font-size: 15px;
-                margin-bottom: 28px;
-            }
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
-            .hero-btn-primary,
-            .hero-btn-secondary {
-                width: 100%;
-                max-width: 320px;
-                padding: 14px 24px;
-                font-size: 15px;
-                text-align: center;
-            }
-            .hero-note {
-                font-size: 12px;
-            }
+            .hero-note { font-size: 12px; }
 
-            /* Trust bar */
-            .trust-bar {
-                padding: 20px 20px;
-            }
-            .trust-logos {
-                gap: 24px;
-            }
-            .trust-logos span {
-                font-size: 15px;
-            }
+            .trust-bar { padding: 28px 20px; }
+            .trust-stats { gap: 24px; }
+            .trust-divider { display: none; }
+            .trust-stat-value { font-size: 22px; }
+            .trust-pills { gap: 8px; }
+            .trust-pill { font-size: 12px; padding: 5px 12px; }
 
-            /* Features */
-            .features {
-                padding: 60px 20px;
-            }
-            .section-sub {
-                font-size: 15px;
-                margin-bottom: 40px;
-            }
-            .feature-card {
-                padding: 28px 22px;
-            }
+            .features { padding: 60px 20px; }
+            .section-sub { font-size: 15px; margin-bottom: 40px; }
+            .feature-card { padding: 28px 22px; }
 
-            /* How it works */
-            .how-it-works {
-                padding: 60px 20px;
-            }
-            .steps {
-                grid-template-columns: 1fr;
-                gap: 32px;
-            }
+            .how-it-works { padding: 60px 20px; }
+            .steps { grid-template-columns: 1fr; gap: 32px; }
 
-            /* Pricing */
-            .pricing {
-                padding: 60px 20px;
-            }
-            .pricing-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .pricing-card {
-                padding: 32px 24px;
-            }
-            .pricing-card.popular {
-                transform: scale(1);
-            }
-            .pricing-price {
-                font-size: 44px;
-            }
+            .pricing { padding: 60px 20px; }
+            .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+            .pricing-card { padding: 32px 24px; }
+            .pricing-card.popular { transform: scale(1); }
+            .pricing-price { font-size: 44px; }
 
-            /* CTA banner */
-            .cta-banner {
-                padding: 56px 20px;
-            }
-            .cta-banner p {
-                font-size: 15px;
-            }
+            .cta-banner { padding: 56px 20px; }
+            .cta-banner p { font-size: 15px; }
 
-            /* Footer */
-            footer {
-                padding: 32px 20px;
-                gap: 16px;
-            }
-            .footer-links {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 16px;
-            }
+            footer { padding: 32px 20px; gap: 16px; }
+            .footer-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
         }
     </style>
 </head>
@@ -781,13 +743,36 @@
 
 <!-- TRUST BAR -->
 <div class="trust-bar">
-    <p>Trusted by professionals at</p>
-    <div class="trust-logos">
-        <span>Deloitte</span>
-        <span>Shopify</span>
-        <span>HubSpot</span>
-        <span>Stripe</span>
-        <span>Notion</span>
+    <div class="trust-stats">
+        <div class="trust-stat">
+            <div class="trust-stat-value"><span>10,000+</span></div>
+            <div class="trust-stat-label">Documents processed</div>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-stat">
+            <div class="trust-stat-value"><span>500+</span></div>
+            <div class="trust-stat-label">Happy users</div>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-stat">
+            <div class="trust-stat-value"><span>99.9%</span></div>
+            <div class="trust-stat-label">Uptime</div>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-stat">
+            <div class="trust-stat-value"><span>3</span></div>
+            <div class="trust-stat-label">Powerful tools</div>
+        </div>
+    </div>
+    <div class="trust-social">
+        <p>Trusted by freelancers, lawyers, accountants, and small business owners</p>
+        <div class="trust-pills">
+            <span class="trust-pill">💼 Freelancers</span>
+            <span class="trust-pill">⚖️ Legal professionals</span>
+            <span class="trust-pill">📊 Accountants</span>
+            <span class="trust-pill">🏢 Small businesses</span>
+            <span class="trust-pill">🎓 Students</span>
+        </div>
     </div>
 </div>
 
