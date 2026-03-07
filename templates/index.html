@@ -3,7 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocuTool – Professional PDF Tools</title>
+
+    <!-- ── PRIMARY SEO ── -->
+    <title>DocuTool – Merge, Compress & Convert PDFs Online | Free Trial</title>
+    <meta name="description" content="Merge, compress, and convert PDF files to Word online in seconds. Fast, secure, and professional PDF tools. Try free for 3 days. Plans from $5/mo.">
+    <meta name="keywords" content="merge PDF, compress PDF, PDF to Word, convert PDF online, PDF tools, reduce PDF size, combine PDF files">
+    <meta name="author" content="DocuTool">
+    <link rel="canonical" href="https://www.docutool.org/">
+
+    <!-- ── OPEN GRAPH (Facebook, LinkedIn previews) ── -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.docutool.org/">
+    <meta property="og:title" content="DocuTool – Merge, Compress & Convert PDFs Online">
+    <meta property="og:description" content="Fast, secure PDF tools for professionals. Merge, compress, and convert PDFs to Word. Try free for 3 days.">
+    <meta property="og:site_name" content="DocuTool">
+
+    <!-- ── TWITTER CARD ── -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DocuTool – Merge, Compress & Convert PDFs Online">
+    <meta name="twitter:description" content="Fast, secure PDF tools for professionals. Merge, compress, and convert PDFs to Word. Try free for 3 days.">
+
+    <!-- ── STRUCTURED DATA (Google Rich Results) ── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "DocuTool",
+      "url": "https://www.docutool.org",
+      "description": "Professional PDF tools — merge, compress, and convert PDFs to Word online.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Basic Plan",
+          "price": "5.00",
+          "priceCurrency": "USD",
+          "description": "PDF Merge, PDF to Word, PDF Compress. Up to 50MB per file."
+        },
+        {
+          "@type": "Offer",
+          "name": "Pro Plan",
+          "price": "12.00",
+          "priceCurrency": "USD",
+          "description": "Everything in Basic plus up to 100MB per file, priority processing, and bulk uploads."
+        }
+      ],
+      "featureList": [
+        "Merge PDF files online",
+        "Compress PDF file size",
+        "Convert PDF to Word (DOCX)"
+      ]
+    }
+    </script>
+
+    <!-- ── FAQ STRUCTURED DATA (Google FAQ rich snippets) ── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I merge PDF files online?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sign up for DocuTool, go to the Merge PDF tool, upload two or more PDF files, and click download. Your merged PDF is ready in seconds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I compress a PDF without losing quality?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use DocuTool's PDF Compress tool. Upload your PDF and we'll reduce the file size while preserving readability — perfect for email attachments."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I convert a PDF to Word?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Upload your PDF to DocuTool's PDF to Word converter. We'll convert it to a fully editable .docx file with formatting preserved, ready to download instantly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is DocuTool free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "DocuTool offers a 3-day free trial on all plans. After the trial, plans start at $5/month with no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -600,6 +695,66 @@
             color: #9ca3af;
         }
 
+        /* ── FAQ SECTION ── */
+        .faq {
+            background: #f8f9ff;
+            padding: 100px 60px;
+        }
+
+        .faq-list {
+            max-width: 720px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .faq-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a2e;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.2s;
+            gap: 12px;
+        }
+
+        .faq-question:hover { background: #f8f9ff; }
+
+        .faq-icon {
+            font-size: 18px;
+            color: #4F46E5;
+            font-weight: 800;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+        .faq-answer {
+            display: none;
+            padding: 0 24px 20px;
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer { display: block; }
+
         /* ── CTA BANNER ── */
         .cta-banner {
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
@@ -703,6 +858,10 @@
             .pricing-card.popular { transform: scale(1); }
             .pricing-price { font-size: 44px; }
 
+            .faq { padding: 60px 20px; }
+            .faq-question { font-size: 14px; padding: 16px 18px; }
+            .faq-answer { padding: 0 18px 16px; }
+
             .cta-banner { padding: 56px 20px; }
             .cta-banner p { font-size: 15px; }
 
@@ -720,6 +879,7 @@
         <li><a href="#features">Features</a></li>
         <li><a href="#how-it-works">How it works</a></li>
         <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
     </ul>
     <div class="nav-cta">
         <a href="/login" class="btn-outline">Log in</a>
@@ -784,17 +944,17 @@
     <div class="features-grid">
         <div class="feature-card">
             <span class="feature-icon">📄</span>
-            <h3>Merge PDFs</h3>
-            <p>Combine multiple PDF files into one perfectly ordered document. Upload as many files as you need and download in seconds.</p>
+            <h3>Merge PDFs Online</h3>
+            <p>Combine multiple PDF files into one perfectly ordered document. Upload as many files as you need and download your merged PDF in seconds.</p>
         </div>
         <div class="feature-card">
             <span class="feature-icon">📝</span>
-            <h3>PDF to Word</h3>
+            <h3>Convert PDF to Word</h3>
             <p>Convert any PDF into a fully editable Word document (.docx) with formatting and layout preserved. Ready to edit immediately.</p>
         </div>
         <div class="feature-card">
             <span class="feature-icon">🗜️</span>
-            <h3>Compress PDFs</h3>
+            <h3>Compress PDF Files</h3>
             <p>Reduce PDF file sizes dramatically without sacrificing readability. Perfect for email attachments and cloud storage.</p>
         </div>
     </div>
@@ -861,6 +1021,57 @@
     <p class="trial-note">🔒 Secure checkout via Stripe · Cancel anytime · No hidden fees</p>
 </section>
 
+<!-- FAQ -->
+<section class="faq" id="faq">
+    <p class="section-label">Got questions?</p>
+    <h2 class="section-title">Frequently asked</h2>
+    <p class="section-sub">Everything you need to know before getting started.</p>
+    <div class="faq-list">
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                How do I merge PDF files online?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">Sign up for DocuTool, go to the Merge PDF tool, upload two or more PDF files, and click download. Your merged PDF is ready in seconds — no software to install.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                How do I compress a PDF without losing quality?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">Use DocuTool's PDF Compress tool. Upload your PDF and we'll reduce the file size while preserving readability — perfect for email attachments and cloud storage.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                How do I convert a PDF to Word?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">Upload your PDF to DocuTool's PDF to Word converter. We'll convert it to a fully editable .docx file with formatting preserved, ready to download instantly.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                Is DocuTool free to use?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">DocuTool offers a 3-day free trial on all plans with no credit card commitment. After the trial, plans start at just $5/month. Cancel anytime with no hidden fees.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                Is my data secure?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">Yes. All file transfers are encrypted and your documents are processed securely. We do not store your files after processing is complete.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                What is the maximum file size?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">Basic plan users can upload files up to 50MB. Pro plan users can upload files up to 100MB per file.</div>
+        </div>
+    </div>
+</section>
+
 <!-- CTA BANNER -->
 <section class="cta-banner">
     <h2>Ready to take control of your PDFs?</h2>
@@ -874,11 +1085,19 @@
     <ul class="footer-links">
         <li><a href="#features">Features</a></li>
         <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
         <li><a href="/login">Log in</a></li>
         <li><a href="/register">Sign up</a></li>
     </ul>
     <p class="footer-copy">© 2026 DocuTool. All rights reserved.</p>
 </footer>
+
+<script>
+    function toggleFaq(btn) {
+        const item = btn.parentElement;
+        item.classList.toggle('open');
+    }
+</script>
 
 </body>
 </html>
