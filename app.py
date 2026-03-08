@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 import stripe
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, redirect, url_for, flash, send_file
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -194,12 +194,12 @@ def checkout_success():
     existing_user = User.query.filter_by(email=checkout_session.customer_email).first()
     if existing_user:
         login_user(existing_user)
-        return render_template('success.html')  # ← fires conversion tag
+        return render_template('success.html')
 
     user = create_user_from_checkout_session(checkout_session)
     if user:
         login_user(user)
-        return render_template('success.html')  # ← fires conversion tag
+        return render_template('success.html')
 
     flash('Payment received but account setup failed. Please contact support.')
     return redirect(url_for('login'))
@@ -626,6 +626,31 @@ def compress_image():
             return redirect(url_for('compress_image'))
 
     return render_template('compress_image.html')
+
+
+# ── SITEMAP ───────────────────────────────────────────────────────────────────
+
+@app.route('/sitemap.xml')
+def sitemap():
+    xml = '''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.docutool.org/</loc>
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.docutool.org/register</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.docutool.org/login</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+</urlset>'''
+    return Response(xml, mimetype='application/xml')
 
 
 # ── INIT ──────────────────────────────────────────────────────────────────────
